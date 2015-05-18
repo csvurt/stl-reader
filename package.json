@@ -1,0 +1,25 @@
+{
+  "name": "stl-reader",
+  "version": "1.0.0",
+  "description": "High-performance library for parsing STL (Stereolithography) files",
+  "main": "stl-reader.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tatchx/stl-reader.git"
+  },
+  "keywords": [
+    "stl",
+    "parser",
+    "reader",
+    "stereolithography"
+  ],
+  "author": "Tat <tatchx@gmail.com> (https://github.com/tatchx)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tatchx/stl-reader/issues"
+  },
+  "homepage": "https://github.com/tatchx/stl-reader"
+}
