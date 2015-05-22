@@ -1,10 +1,11 @@
 
 var expect = require('chai').expect;
-var reader = require('../stl-reader');
+var StlReader = require('../stl-reader');
 
-describe('stl-reader functions', function () {
+describe('StlReader functions', function () {
 
   it('should have a read function', function () {
+    var reader = new StlReader();
     expect(reader.read).to.exist;
   });
 });
