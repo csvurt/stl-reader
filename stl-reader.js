@@ -3,6 +3,8 @@
 
   var StlReader = (function() {
 
+    var DataStream = require('data-stream').DataStream;
+
     var StlReader = function(options) {
     };
 
@@ -12,7 +14,9 @@
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
      * @return {Float23Array}
      */
-    StlReader.prototype.read = function read() {
+    StlReader.prototype.read = function(fileData) {
+
+      var ds = new DataStream(fileData);
     };
 
     return StlReader;
