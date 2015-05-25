@@ -3,7 +3,9 @@
 
   var StlReader = (function() {
 
-    var DataStream = require('data-stream').DataStream;
+    if (typeof DataStream === 'undefined') {
+      DataStream = require('data-stream').DataStream;
+    }
 
     var StlReader = function(options) {
     };

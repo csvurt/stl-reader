@@ -15,6 +15,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'DataStream.js/*.js',
+      'stl-reader.js',
       'spec/*.js'
     ],
 
