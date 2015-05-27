@@ -24,13 +24,13 @@
       var ATTR_BYTE_COUNT_SIZE = 2;
       var PER_TRIANGLE_DATA_SIZE = 4*VEC3_SIZE + ATTR_BYTE_COUNT_SIZE;
 
-      function isValid(ds) {
+      function isTooSmallToBeValid(ds) {
         ds.seek(0);
         if (ds.byteLength < HEADER_SIZE + TRIANGLE_COUNT_SIZE) {
-          return false;
+          return true;
         }
 
-        return true;
+        return false;
       }
 
       function isBinary(ds) {
@@ -51,6 +51,10 @@
       }
 
       var ds = new DataStream(fileData);
+
+      if (isTooSmallToBeValid()) {
+        return null;
+      }
 
       if (isBinary(ds)) {
         console.log('Binary STL');
