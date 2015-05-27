@@ -18,11 +18,32 @@
      */
     StlReader.prototype.read = function(fileData) {
 
+      function isValid(ds) {
+        ds.seek(0);
+        if (ds.byteLength < 80+4) {
+          return false;
+        }
+
+        return true;
+      }
+
+      function isBinary(ds) {
+        ds.seek(0);
+
+        var fileSize = ds.byteLength;
+
+        var skipHeader = ds.readUint8Array(80);
+        var numTriangles = ds.readUint32();
+        if (fileSize == 80+4+numTriangles*4*4*3) {
+          return true;
+        }
+
+        return false;
+      }
+
       var ds = new DataStream(fileData);
 
-      var skipHeader = ds.readUint8Array(80);
-      var numTriangles = ds.readUint32();
-      if (numTriangles > 0 && numTriangles < Math.pow(2, 32)) {
+      if (isBinary(ds)) {
         console.log('Binary STL');
       } else {
         console.log('ASCII STL');
