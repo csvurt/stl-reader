@@ -18,9 +18,15 @@
      */
     StlReader.prototype.read = function(fileData) {
 
+      var HEADER_SIZE = 80;
+      var TRIANGLE_COUNT_SIZE = 4;
+      var VEC3_SIZE = 4*3;
+      var ATTR_BYTE_COUNT_SIZE = 2;
+      var PER_TRIANGLE_DATA_SIZE = 4*VEC3_SIZE + ATTR_BYTE_COUNT_SIZE;
+
       function isValid(ds) {
         ds.seek(0);
-        if (ds.byteLength < 80+4) {
+        if (ds.byteLength < HEADER_SIZE + TRIANGLE_COUNT_SIZE) {
           return false;
         }
 
@@ -32,9 +38,12 @@
 
         var fileSize = ds.byteLength;
 
-        var skipHeader = ds.readUint8Array(80);
+        var skipHeader = ds.readUint8Array(HEADER_SIZE);
         var numTriangles = ds.readUint32();
-        if (fileSize == 80+4+numTriangles*4*4*3) {
+
+        if (fileSize == HEADER_SIZE + TRIANGLE_COUNT_SIZE +
+          numTriangles*PER_TRIANGLE_DATA_SIZE) {
+
           return true;
         }
 

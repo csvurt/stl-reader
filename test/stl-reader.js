@@ -21,7 +21,7 @@ describe('StlReader functions', function () {
   });
 
   it('should read an ascii stl file successfully', function () {
-    var data = fs.readFileSync('test/cube.stl');
+    var data = fs.readFileSync('test/cube-binary.stl');
     var reader = new StlReader();
     var vn = reader.read(toArrayBuffer(data));
   });
