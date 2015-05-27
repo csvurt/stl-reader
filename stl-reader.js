@@ -52,7 +52,7 @@
 
       var ds = new DataStream(fileData);
 
-      if (isTooSmallToBeValid()) {
+      if (isTooSmallToBeValid(ds)) {
         return null;
       }
 

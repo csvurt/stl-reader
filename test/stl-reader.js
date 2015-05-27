@@ -20,6 +20,13 @@ describe('StlReader functions', function () {
     expect(reader.read).to.exist;
   });
 
+  it('should return null for an invalid file', function () {
+    var data = fs.readFileSync('test/invalid.stl');
+    var reader = new StlReader();
+    var vn = reader.read(toArrayBuffer(data));
+    expect(vn).to.be.null;
+  });
+
   it('should read an ascii stl file successfully', function () {
     var data = fs.readFileSync('test/cube-binary.stl');
     var reader = new StlReader();
