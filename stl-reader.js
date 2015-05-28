@@ -50,6 +50,10 @@
         return false;
       }
 
+      if (fileData.byteLength == 0) {
+        return null;
+      }
+
       var ds = new DataStream(fileData);
 
       if (isTooSmallToBeValid(ds)) {
