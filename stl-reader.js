@@ -7,6 +7,10 @@
       DataStream = require('./DataStream.js/DataStream.js');
     }
 
+    if (typeof StlAsciiReader === 'undefined') {
+      StlAsciiReader = require('./stl-ascii-reader.js');
+    }
+
     var StlReader = function(options) {
     };
 
@@ -64,6 +68,7 @@
         console.log('Binary STL');
       } else {
         console.log('ASCII STL');
+        var reader = new StlAsciiReader();
       }
     };
 
