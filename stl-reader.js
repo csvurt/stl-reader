@@ -64,6 +64,16 @@
     }
 
     /**
+     * Converts ArrayBuffer to a string.
+     *
+     * @param {ArrayBuffer} buf the ArrayBuffer to convert
+     * @returns {string} the converted ascii string
+     */
+    StlReader.arrayBufferToString = function (buf) {
+      return String.fromCharCode.apply(null, new Uint8Array(buf));
+    }
+
+    /**
      * Reads the triangle vertices of an STL file into a Float32Array
      *
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
@@ -84,8 +94,9 @@
       if (StlReader.isBinary(ds)) {
 
       } else {
+
         var reader = new StlAsciiReader();
-        reader.read(fileData);
+        reader.read(StlReader.arrayBufferToString(fileData));
       }
     };
 
