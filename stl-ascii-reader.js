@@ -7,6 +7,30 @@
     };
 
     /**
+     * Read a single normal
+     *
+     * @param {String} line containing the normal
+     * @returns {Array} contaning the normal coordinates
+     */
+    StlAsciiReader.readNormal = function (line) {
+      
+      var lineWords = line.trim().split(' ');
+      var normal = [];
+      
+      for (var i = lineWords.length-1; i >= 0; i--) {
+        if (lineWords[i].length === 0) {
+          lineWords.splice(i, 1);
+        }
+      }
+
+      for (var i = 0; i< 3; i++) {
+        normal.push(parseFloat(lineWords[2+i]));
+      }
+
+      return normal;
+    }
+
+    /**
      * Read a single facet
      *
      * @param {Array} lines of the STL file
@@ -15,6 +39,10 @@
      */
     StlAsciiReader.readFacet = function (lines, idx) {
 
+      var facet = {};
+      facet.normal = StlAsciiReader.readNormal(lines[idx]);
+
+      console.log(facet.normal);
     }
 
     /**
