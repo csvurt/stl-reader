@@ -7,6 +7,17 @@
     };
 
     /**
+     * Read a single facet
+     *
+     * @param {Array} lines of the STL file
+     * @param {Number} idx the index at which the facet starts
+     * @returns {Object} an object with the normal and the verts
+     */
+    StlAsciiReader.readFacet = function (lines, idx) {
+
+    }
+
+    /**
      * Read the STL solid
      *
      * @param {Array} the lines of the STL file
@@ -15,7 +26,10 @@
     StlAsciiReader.readSolid = function(lines) {
 
       for (var i = 0; i< lines.length; i++) {
-
+        var lineWords = lines[i].trim().split(' ');
+        if (lineWords[0] == 'facet') {
+          StlAsciiReader.readFacet(lines, i);
+        }
       }
     }
 
