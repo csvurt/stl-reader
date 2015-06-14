@@ -9,11 +9,11 @@
     /**
      * Reads the triangle vertices of an ASCII STL file into a Float32Array
      *
-     * @param  {DataStream} ds The file as a DataStream
+     * @param  {string} fileData The file data as a string
      * @return {Float23Array}
      */
-    StlAsciiReader.prototype.read = function(ds) {
-
+    StlAsciiReader.prototype.read = function(fileData) {
+      console.log(fileData);
     };
 
     return StlAsciiReader;
