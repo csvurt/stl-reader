@@ -13,7 +13,21 @@
      * @returns {Array} containing the vertex coordinates 
      */
     StlAsciiReader.readVertex = function (line) {
+
+      var lineWords = line.trim().split(' ');
+      var vertex = [];
       
+      for (var i = lineWords.length-1; i >= 0; i--) {
+        if (lineWords[i].length === 0) {
+          lineWords.splice(i, 1);
+        }
+      }
+
+      for (var i = 0; i< 3; i++) {
+        vertex.push(parseFloat(lineWords[1+i]));
+      }
+
+      return vertex;
     }
 
     /**
@@ -51,8 +65,10 @@
 
       var facet = {};
       facet.normal = StlAsciiReader.readNormal(lines[idx]);
-
-      console.log(facet.normal);
+      facet.verts = [];
+      facet.verts.push(StlAsciiReader.readVertex(lines[idx+2]));
+      facet.verts.push(StlAsciiReader.readVertex(lines[idx+3]));
+      facet.verts.push(StlAsciiReader.readVertex(lines[idx+4]));
     }
 
     /**
