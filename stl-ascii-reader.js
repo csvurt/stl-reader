@@ -7,6 +7,16 @@
     };
 
     /**
+     * Read a single vertex
+     *
+     * @param {String} line containing the vertex
+     * @returns {Array} containing the vertex coordinates 
+     */
+    StlAsciiReader.readVertex = function (line) {
+      
+    }
+
+    /**
      * Read a single normal
      *
      * @param {String} line containing the normal
