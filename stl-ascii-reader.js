@@ -7,6 +7,25 @@
     };
 
     /**
+     * Split line into words
+     *
+     * @param {String} line containing words
+     * @returns {Array} containing the words
+     */
+    StlAsciiReader.splitLineIntoWords = function (line) {
+      
+      var lineWords = line.trim().split(' ');
+      
+      for (var i = lineWords.length-1; i >= 0; i--) {
+        if (lineWords[i].length === 0) {
+          lineWords.splice(i, 1);
+        }
+      }
+
+      return lineWords;
+    }
+
+    /**
      * Read a single vertex
      *
      * @param {String} line containing the vertex
@@ -14,14 +33,8 @@
      */
     StlAsciiReader.readVertex = function (line) {
 
-      var lineWords = line.trim().split(' ');
+      var lineWords = StlAsciiReader.splitLineIntoWords(line);
       var vertex = [];
-      
-      for (var i = lineWords.length-1; i >= 0; i--) {
-        if (lineWords[i].length === 0) {
-          lineWords.splice(i, 1);
-        }
-      }
 
       for (var i = 0; i< 3; i++) {
         vertex.push(parseFloat(lineWords[1+i]));
@@ -38,14 +51,8 @@
      */
     StlAsciiReader.readNormal = function (line) {
       
-      var lineWords = line.trim().split(' ');
+      var lineWords = StlAsciiReader.splitLineIntoWords(line);
       var normal = [];
-      
-      for (var i = lineWords.length-1; i >= 0; i--) {
-        if (lineWords[i].length === 0) {
-          lineWords.splice(i, 1);
-        }
-      }
 
       for (var i = 0; i< 3; i++) {
         normal.push(parseFloat(lineWords[2+i]));
