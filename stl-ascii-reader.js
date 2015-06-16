@@ -23,7 +23,7 @@
       }
 
       return lineWords;
-    }
+    };
 
     /**
      * Read a single vertex
@@ -41,7 +41,7 @@
       }
 
       return vertex;
-    }
+    };
 
     /**
      * Read a single normal
@@ -59,7 +59,7 @@
       }
 
       return normal;
-    }
+    };
 
     /**
      * Read a single facet
@@ -76,13 +76,13 @@
       facet.verts.push(StlAsciiReader.readVertex(lines[idx+2]));
       facet.verts.push(StlAsciiReader.readVertex(lines[idx+3]));
       facet.verts.push(StlAsciiReader.readVertex(lines[idx+4]));
-    }
+    };
 
     /**
      * Read the STL solid
      *
      * @param {Array} the lines of the STL file
-     * @returns {Float32Array} contains the interleaved vertex normal data
+     * @returns {Array} contains the facet data
      */
     StlAsciiReader.readSolid = function(lines) {
 
@@ -94,7 +94,18 @@
           facets.push(facet);
         }
       }
-    }
+    };
+
+    /**
+     * Converts the facets into a Float32Array with interleaved vertex and 
+     * normal data.
+     * 
+     * @param {Array} facets the array of facets
+     * @return {Float32Array} contains the interleaved vertex normal data
+     */
+    StlAsciiReader.convertFacetsToFloat32Array = function (facets) {
+
+    };
 
     /**
      * Reads the triangle vertices of an ASCII STL file into a Float32Array
