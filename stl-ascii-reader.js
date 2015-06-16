@@ -86,10 +86,12 @@
      */
     StlAsciiReader.readSolid = function(lines) {
 
+      var facets = [];
       for (var i = 0; i< lines.length; i++) {
         var lineWords = lines[i].trim().split(' ');
         if (lineWords[0] == 'facet') {
-          StlAsciiReader.readFacet(lines, i);
+          var facet = StlAsciiReader.readFacet(lines, i);
+          facets.push(facet);
         }
       }
     }
