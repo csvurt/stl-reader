@@ -38,7 +38,7 @@
       }
 
       return false;
-    }
+    };
 
     /** 
      * Check if the file is a binary STL file.
@@ -61,7 +61,7 @@
       }
 
       return false;
-    }
+    };
 
     /**
      * Converts ArrayBuffer to a string.
@@ -71,7 +71,7 @@
      */
     StlReader.arrayBufferToString = function (buf) {
       return String.fromCharCode.apply(null, new Uint8Array(buf));
-    }
+    };
 
     /**
      * Reads the triangle vertices of an STL file into a Float32Array
@@ -81,7 +81,7 @@
      */
     StlReader.prototype.read = function(fileData) { 
 
-      if (fileData.byteLength == 0) {
+      if (fileData.byteLength === 0) {
         return null;
       }
 

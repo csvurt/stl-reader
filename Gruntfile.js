@@ -10,8 +10,8 @@ module.exports = function(grunt) {
       all: ['test/*.js']
     },
     jshint: {
-      all: ['*.js', 'test/**/*.js', 'spec/**/*.js', '!DataStream.js',
-        '!node_modules']
+      all: ['*.js', 'spec/**/*.js', '!DataStream.js',
+        '!node_modules', '!test']
     }
   });
 
@@ -20,4 +20,4 @@ module.exports = function(grunt) {
 
   grunt.registerTask('test', ['mochacli']);
   grunt.registerTask('lint', ['jshint']);
-}
+};
