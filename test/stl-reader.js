@@ -38,5 +38,6 @@ describe('StlReader functions', function () {
     var data = fs.readFileSync('test/cube.stl');
     var reader = new StlReader();
     var vn = reader.read(toArrayBuffer(data));
+    expect(vn.length).to.equal(3*2*3*12);
   });
 });

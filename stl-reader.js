@@ -96,7 +96,7 @@
       } else {
 
         var reader = new StlAsciiReader();
-        reader.read(StlReader.arrayBufferToString(fileData));
+        return reader.read(StlReader.arrayBufferToString(fileData));
       }
     };
 
