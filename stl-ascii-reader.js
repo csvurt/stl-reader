@@ -76,6 +76,8 @@
       facet.verts.push(StlAsciiReader.readVertex(lines[idx+2]));
       facet.verts.push(StlAsciiReader.readVertex(lines[idx+3]));
       facet.verts.push(StlAsciiReader.readVertex(lines[idx+4]));
+
+      return facet;
     };
 
     /**
@@ -94,6 +96,8 @@
           facets.push(facet);
         }
       }
+
+      return facets;
     };
 
     /**
@@ -105,6 +109,23 @@
      */
     StlAsciiReader.convertFacetsToFloat32Array = function (facets) {
 
+      var floatArray = new Float32Array(facets.length*3*2*3);
+      for (var i = 0; i< facets.length; i++) {
+
+        var normal = facets[i].normal;
+        for (var j = 0; j < 3; j++) {
+          for (var k = 0; k < 3; k++) {
+            floatArray[i*18+j*6+k] = facets[i].verts[j][k];
+          }
+
+          // copy the normal after each vertex
+          for (k = 0; k < 3; k++) {
+            floatArray[i*18+j*6+3+k] = facets[i].normal[k];
+          }
+        }
+      }
+
+      return floatArray;
     };
 
     /**
@@ -115,7 +136,9 @@
      */
     StlAsciiReader.prototype.read = function(fileData) {
       var lines = fileData.split('\n');
-      StlAsciiReader.readSolid(lines);
+      var facets = StlAsciiReader.readSolid(lines);
+      var floatArray = StlAsciiReader.convertFacetsToFloat32Array(facets);  
+      return floatArray;
     };
 
     return StlAsciiReader;
