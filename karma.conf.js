@@ -17,6 +17,7 @@ module.exports = function(config) {
     files: [
       'DataStream.js/*.js',
       'stl-ascii-reader.js',
+      'stl-binary-reader.js',
       'stl-reader.js',
       'spec/*.js'
     ],

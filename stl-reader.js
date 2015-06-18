@@ -11,6 +11,10 @@
       StlAsciiReader = require('./stl-ascii-reader.js');
     }
 
+    if (typeof StlBinaryReader === 'undefined') {
+      StlBinaryReader = require('./stl-binary-reader.js');
+    }
+
     var StlReader = function(options) {
     };
 
@@ -25,7 +29,7 @@
       attribute count at the end */
     StlReader.PER_TRI_SIZE = 4*(4*3)+2;
 
-    /** 
+    /**
      * Check if the file is too small to be a valid STL file.
      *
      * @param {DataStream} ds the file data as a DataStream
@@ -40,7 +44,7 @@
       return false;
     };
 
-    /** 
+    /**
      * Check if the file is a binary STL file.
      *
      * @param {DataStream} ds the file data as a DataStream
@@ -79,7 +83,7 @@
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
      * @return {Float23Array}
      */
-    StlReader.prototype.read = function(fileData) { 
+    StlReader.prototype.read = function(fileData) {
 
       if (fileData.byteLength === 0) {
         return null;
@@ -91,11 +95,14 @@
         return null;
       }
 
+      var reader;
       if (StlReader.isBinary(ds)) {
 
+        reader = new StlBinaryReader();
+        return reader.read(ds);
       } else {
 
-        var reader = new StlAsciiReader();
+        reader = new StlAsciiReader();
         return reader.read(StlReader.arrayBufferToString(fileData));
       }
     };
