@@ -40,4 +40,11 @@ describe('StlReader functions', function () {
     var vn = reader.read(toArrayBuffer(data));
     expect(vn.length).to.equal(3*2*3*12);
   });
+
+  it('should read a binary stl file successfully', function () {
+    var data = fs.readFileSync('test/cube-binary.stl');
+    var reader = new StlReader();
+    var vn = reader.read(toArrayBuffer(data));
+    //expect(vn.length).to.equal(3*2*3*12);
+  });
 });
