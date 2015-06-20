@@ -62,10 +62,10 @@
     StlBinaryReader.readTriangles = function (ds) {
 
       var numTri = ds.readUint32();
-      var typedArray = new Float32Array(numTri*3*2*3);
+      var typedArray = new Float32Array(numTri*3*3*2);
 
       for (var i = 0; i< numTri; i++) {
-        StlBinaryReader.readTriangles(ds, typedArray, idx + i*3*3*2);
+        StlBinaryReader.readTriangle(ds, typedArray, i*3*3*2);
       }
 
       return typedArray;
@@ -80,6 +80,7 @@
     StlBinaryReader.prototype.read = function(ds) {
 
       StlBinaryReader.readHeader(ds);
+      return StlBinaryReader.readTriangles(ds);
     };
 
     return StlBinaryReader;

@@ -99,6 +99,7 @@
       if (StlReader.isBinary(ds)) {
 
         reader = new StlBinaryReader();
+        ds.seek(0);
         return reader.read(ds);
       } else {
 
