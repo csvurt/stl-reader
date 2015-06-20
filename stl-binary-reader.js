@@ -41,10 +41,10 @@
      */
     StlBinaryReader.readTriangle = function (ds, arr, idx) {
 
-      var normal = ds.readUint32Array(3);
+      var normal = ds.readFloat32Array(3);
       for (var i = 0; i<3; i++) {
 
-        var vert = ds.readUint32Array(3);
+        var vert = ds.readFloat32Array(3);
 
         StlBinaryReader.readVec3IntoArray(vert, arr, idx + i*6);
         StlBinaryReader.readVec3IntoArray(normal, arr, idx + i*6 + 3);
