@@ -39,6 +39,16 @@ describe('StlReader functions', function () {
     var reader = new StlReader();
     var vn = reader.read(toArrayBuffer(data));
     expect(vn.length).to.equal(3*2*3*12);
+
+    // check the first vertex and normal
+    var delta = 0.001;
+    expect(vn[0]).to.be.closeTo(0, delta);
+    expect(vn[1]).to.be.closeTo(0, delta);
+    expect(vn[2]).to.be.closeTo(0, delta);
+
+    expect(vn[3]).to.be.closeTo(0, delta);
+    expect(vn[4]).to.be.closeTo(0, delta);
+    expect(vn[5]).to.be.closeTo(-1, delta);
   });
 
   it('should read a binary stl file successfully', function () {
@@ -46,5 +56,15 @@ describe('StlReader functions', function () {
     var reader = new StlReader();
     var vn = reader.read(toArrayBuffer(data));
     expect(vn.length).to.equal(3*2*3*12);
+
+    // check the first vertex and normal
+    var delta = 0.001;
+    expect(vn[0]).to.be.closeTo(0, delta);
+    expect(vn[1]).to.be.closeTo(0, delta);
+    expect(vn[2]).to.be.closeTo(0, delta);
+
+    expect(vn[3]).to.be.closeTo(0, delta);
+    expect(vn[4]).to.be.closeTo(0, delta);
+    expect(vn[5]).to.be.closeTo(-1, delta);
   });
 });
