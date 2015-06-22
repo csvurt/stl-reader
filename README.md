@@ -16,7 +16,7 @@ npm install stl-reader
 
 ### Usage
 
-```
+```JavaScript
 var fs = require('fs');
 var StlReader = require('stl-reader');
 ...
@@ -30,7 +30,7 @@ convert a Node Buffer to an ArrayBuffer by calling the toArrayBuffer() on the
 Node Buffer. In older versions of Node use the function below to convert a Node
 Buffer to an ArrayBuffer (see discussion regarding this code [here](http://stackoverflow.com/questions/8609289/convert-a-binary-nodejs-buffer-to-javascript-arraybuffer)).
 
-```
+```JavaScript
 function toArrayBuffer(buffer) {
   var ab = new ArrayBuffer(buffer.length);
   var view = new Uint8Array(ab);
