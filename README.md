@@ -1,4 +1,4 @@
-# stl-reader
+# StlReader
 
 JavaScript library for parsing STL (Stereolithography) files into interleaved
 vertex normal Float32Arrays that can be directly passed into WebGL for
