@@ -21,8 +21,8 @@ var fs = require('fs');
 var StlReader = require('stl-reader');
 ...
 var data = fs.readFileSync('test/cube-binary.stl');
-var reader = new StlReader();
-var vn = reader.read(toArrayBuffer(data));
+var stlReader = new StlReader();
+var vn = stlReader.read(toArrayBuffer(data));
 ```
 
 The *read()* function takes as input an ArrayBuffer. You can use the function
@@ -46,9 +46,17 @@ function toArrayBuffer(buffer) {
 bower install stl-reader
 ```
 
+On the client-side use an instance of the FileReader class to read the local
+file as an ArrayBuffer.
 
-```
+```Javascript
 var reader = new FileReader();
+
+reader.onload = function(e) {
+  var data = reader.result;
+  var stlReader = new StlReader();
+  var vn = stlReader.read(data);
+};
 
 reader.readAsArrayBuffer(f);
 ```
