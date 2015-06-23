@@ -22,13 +22,12 @@ var StlReader = require('stl-reader');
 ...
 var data = fs.readFileSync('test/cube-binary.stl');
 var reader = new StlReader();
-var vn = reader.read(data.toArrayBuffer());
+var vn = reader.read(toArrayBuffer(data));
 ```
 
-The *read()* function takes as input an ArrayBuffer. In Node 0.12+ you can
-convert a Node Buffer to an ArrayBuffer by calling the toArrayBuffer() on the
-Node Buffer. In older versions of Node use the function below to convert a Node
-Buffer to an ArrayBuffer (see discussion regarding this code [here](http://stackoverflow.com/questions/8609289/convert-a-binary-nodejs-buffer-to-javascript-arraybuffer)).
+The *read()* function takes as input an ArrayBuffer. You can use the function
+below to convert a Node Buffer to an ArrayBuffer (see discussion regarding this
+code snippet [here](http://stackoverflow.com/questions/8609289/convert-a-binary-nodejs-buffer-to-javascript-arraybuffer)).
 
 ```JavaScript
 function toArrayBuffer(buffer) {
@@ -47,3 +46,9 @@ function toArrayBuffer(buffer) {
 bower install stl-reader
 ```
 
+
+```
+var reader = new FileReader();
+
+reader.readAsArrayBuffer(f);
+```
