@@ -46,8 +46,15 @@ function toArrayBuffer(buffer) {
 bower install stl-reader
 ```
 
-On the client-side use an instance of the FileReader class to read the local
-file as an ArrayBuffer.
+Include these three JavaScript files on the page.
+
+```HTML
+<script src="/bower_components/stl-reader/stl-ascii-reader.js" type="text/javascript"></script>
+<script src="/bower_components/stl-reader/stl-binary-reader.js" type="text/javascript"></script>
+<script src="/bower_components/stl-reader/stl-reader.js" type="text/javascript"></script>
+```
+
+Use an instance of the FileReader class to read the local file as an ArrayBuffer.
 
 ```Javascript
 var reader = new FileReader();
