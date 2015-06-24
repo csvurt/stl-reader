@@ -1,7 +1,7 @@
 {
   "name": "stl-reader",
   "main": "stl-reader.js",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "homepage": "https://github.com/tatchx/stl-reader",
   "authors": [
     "Tat <tatchx@gmail.com>"
