@@ -53,7 +53,7 @@ therefore will need to install the DataStream.js library also from
 [here](https://github.com/kig/DataStream.js). After installation include these
 JavaScript before including the stl-reader related scripts:
 
-```
+```HTML
 <script type="text/javascript" src="/bower_components/DataStream.js/encoding-indexes.js"></script>
 <script type="text/javascript" src="/bower_components/DataStream.js/encoding.js"></script>
 <script type="text/javascript" src="/bower_components/DataStream.js/DataStream.js"></script>
