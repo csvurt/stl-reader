@@ -4,8 +4,6 @@ JavaScript library for parsing STL (Stereolithography) files into interleaved
 vertex normal Float32Arrays that can be directly passed into WebGL for
 rendering.
 
-**Work in progress. Not ready yet. Do not use.**
-
 ## Server-side
 
 ### Installation
@@ -40,10 +38,25 @@ function toArrayBuffer(buffer) {
 }
 ```
 
+This library depends on the DataStream.js library to read binary STL files. A
+version of the DataStream.js library is installed automatically as a
+dependency when this library is installed server-side using npm.
+
 ## Client-side
 
 ```
 bower install stl-reader
+```
+
+This library depends on the DataStream.js library to read binary STL files. You
+therefore will need to install the DataStream.js library also from
+[here](https://github.com/kig/DataStream.js). After installation include these
+JavaScript before including the stl-reader related scripts:
+
+```
+<script type="text/javascript" src="/bower_components/DataStream.js/encoding-indexes.js"></script>
+<script type="text/javascript" src="/bower_components/DataStream.js/encoding.js"></script>
+<script type="text/javascript" src="/bower_components/DataStream.js/DataStream.js"></script>
 ```
 
 Include these three JavaScript files on the page.
