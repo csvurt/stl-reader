@@ -3,3 +3,4 @@ test
 .gitignore
 Gruntfile.js
 karma.conf.js
+bower.json
