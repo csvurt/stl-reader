@@ -1,0 +1,26 @@
+{
+  "name": "stl-reader",
+  "main": "stl-reader.js",
+  "version": "1.0.2",
+  "homepage": "https://github.com/tatchx/stl-reader",
+  "authors": [
+    "Tat <tatchx@gmail.com>"
+  ],
+  "description": "Library for parsing STL (Stereolithography) files into typed arrays for WebGL rendering",
+  "keywords": [
+    "stl",
+    "parser",
+    "reader",
+    "stereolithography"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "spec",
+    "DataStream.js"
+  ]
+}
