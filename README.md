@@ -23,8 +23,8 @@ var stlReader = new StlReader();
 var vn = stlReader.read(toArrayBuffer(data));
 ```
 
-The returned vn array contains interleaved vertex normal data, like so, 
-[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a 
+The returned vn array contains interleaved vertex normal data, like so,
+[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a
 vertex shader.
 
 The *read()* function takes as input an ArrayBuffer. You can use the function
@@ -42,9 +42,10 @@ function toArrayBuffer(buffer) {
 }
 ```
 
-This library depends on the DataStream.js library to read binary STL files. A
-version of the DataStream.js library is installed automatically as a
-dependency when this library is installed server-side using npm.
+This library depends on the [DataStream.js](https://github.com/kig/DataStream.js)
+library to read binary STL files. A version of the DataStream.js library is
+installed automatically as a dependency when this library is installed
+server-side using npm.
 
 ## Client-side
 
@@ -53,9 +54,9 @@ bower install stl-reader
 ```
 
 This library depends on the DataStream.js library to read binary STL files. You
-therefore will need to install the DataStream.js library also from
+therefore will also need to install the DataStream.js library from
 [here](https://github.com/kig/DataStream.js). After installation include these
-JavaScript before including the stl-reader related scripts:
+JavaScript files before including the stl-reader related scripts:
 
 ```HTML
 <script type="text/javascript" src="/bower_components/DataStream.js/encoding-indexes.js"></script>
@@ -63,7 +64,7 @@ JavaScript before including the stl-reader related scripts:
 <script type="text/javascript" src="/bower_components/DataStream.js/DataStream.js"></script>
 ```
 
-Include these three JavaScript files on the page.
+Include these three JavaScript files on the page:
 
 ```HTML
 <script src="/bower_components/stl-reader/stl-ascii-reader.js" type="text/javascript"></script>
@@ -85,6 +86,6 @@ reader.onload = function(e) {
 reader.readAsArrayBuffer(f);
 ```
 
-The returned vn array contains interleaved vertex normal data, like so, 
-[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a 
+The returned vn array contains interleaved vertex normal data, like so,
+[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a
 vertex shader.
