@@ -23,6 +23,10 @@ var stlReader = new StlReader();
 var vn = stlReader.read(toArrayBuffer(data));
 ```
 
+The returned vn array contains interleaved vertex normal data, like so, 
+[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a 
+vertex shader.
+
 The *read()* function takes as input an ArrayBuffer. You can use the function
 below to convert a Node Buffer to an ArrayBuffer (see discussion regarding this
 code snippet [here](http://stackoverflow.com/questions/8609289/convert-a-binary-nodejs-buffer-to-javascript-arraybuffer)).
@@ -80,3 +84,7 @@ reader.onload = function(e) {
 
 reader.readAsArrayBuffer(f);
 ```
+
+The returned vn array contains interleaved vertex normal data, like so, 
+[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a 
+vertex shader.
