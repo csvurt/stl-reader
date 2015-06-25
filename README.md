@@ -23,9 +23,9 @@ var stlReader = new StlReader();
 var vn = stlReader.read(toArrayBuffer(data));
 ```
 
-The returned vn array contains interleaved vertex normal data, like so,
-[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a
-vertex shader.
+The returned *vn* array contains interleaved vertex normal data, like so,
+[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal for directly passing
+to a vertex shader.
 
 The *read()* function takes as input an ArrayBuffer. You can use the function
 below to convert a Node Buffer to an ArrayBuffer (see discussion regarding this
@@ -86,6 +86,6 @@ reader.onload = function(e) {
 reader.readAsArrayBuffer(f);
 ```
 
-The returned vn array contains interleaved vertex normal data, like so,
-[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a
-vertex shader.
+The returned *vn* array contains interleaved vertex normal data, like so,
+[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal for directly passing
+to a vertex shader.
