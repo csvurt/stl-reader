@@ -35,7 +35,7 @@
      * @param {DataStream} ds the file data as a DataStream
      * @returns {Boolean} true if the file is too small to be valid
      */
-    StlReader.isTooSmallToBeValid = function (ds) {
+    function isTooSmallToBeValid(ds) {
       ds.seek(0);
       if (ds.byteLength < StlReader.HEADER_SIZE + StlReader.TRI_COUNT_SIZE) {
         return true;
@@ -50,7 +50,7 @@
      * @param {DataStream} ds the file data as a DataStream
      * @returns {Boolean} true if the file is a binary STL file
      */
-    StlReader.isBinary = function (ds) {
+    function isBinary(ds) {
       ds.seek(0);
 
       var fileSize = ds.byteLength;
@@ -73,7 +73,7 @@
      * @param {ArrayBuffer} buf the ArrayBuffer to convert
      * @returns {string} the converted ascii string
      */
-    StlReader.arrayBufferToString = function (buf) {
+    function arrayBufferToString(buf) {
       return String.fromCharCode.apply(null, new Uint8Array(buf));
     };
 
@@ -91,12 +91,12 @@
 
       var ds = new DataStream(fileData);
 
-      if (StlReader.isTooSmallToBeValid(ds)) {
+      if (isTooSmallToBeValid(ds)) {
         return null;
       }
 
       var reader;
-      if (StlReader.isBinary(ds)) {
+      if (isBinary(ds)) {
 
         reader = new StlBinaryReader();
         ds.seek(0);
@@ -104,7 +104,7 @@
       } else {
 
         reader = new StlAsciiReader();
-        return reader.read(StlReader.arrayBufferToString(fileData));
+        return reader.read(arrayBufferToString(fileData));
       }
     };
 
