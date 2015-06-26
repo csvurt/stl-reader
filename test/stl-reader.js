@@ -13,11 +13,16 @@ function toArrayBuffer(buffer) {
   return ab;
 }
 
-describe('StlReader functions', function () {
+describe('StlReader', function () {
 
   it('should have a read function', function () {
     var reader = new StlReader();
     expect(reader.read).to.exist;
+  });
+
+  it('should have an isBinary function', function () {
+    var reader = new StlReader();
+    expect(reader.isBinary).to.exist;
   });
 
   it('should return null for an invalid file', function () {
@@ -32,6 +37,20 @@ describe('StlReader functions', function () {
     var reader = new StlReader();
     var vn = reader.read(toArrayBuffer(data));
     expect(vn).to.be.null;
+  });
+
+  it('should determine correctly if a file is a binary STL', function () {
+    var data = fs.readFileSync('test/cube-binary.stl');
+    var reader = new StlReader();
+    var isBinary = reader.isBinary(toArrayBuffer(data));
+    expect(isBinary).to.be.true;
+  });
+
+  it('should determine correctly if a file is an ASCII STL', function () {
+    var data = fs.readFileSync('test/cube.stl');
+    var reader = new StlReader();
+    var isBinary = reader.isBinary(toArrayBuffer(data));
+    expect(isBinary).to.be.false;
   });
 
   it('should read an ascii stl file successfully', function () {
