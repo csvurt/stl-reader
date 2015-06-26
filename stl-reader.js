@@ -78,12 +78,17 @@
     };
 
     /**
-     * Reads the triangle vertices of an STL file into a Float32Array
+     * Checks if the ArrayBuffer is valid - that is, the data could
+     * theoretically be an STL file
      *
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @return {Float23Array}
+     * @return {DataStream} the DataStream for the file is valid else null
      */
-    StlReader.prototype.read = function(fileData) {
+    function checkValidity(fileData) {
+
+      if (!fileData) {
+        return null;
+      }
 
       if (fileData.byteLength === 0) {
         return null;
@@ -92,6 +97,23 @@
       var ds = new DataStream(fileData);
 
       if (isTooSmallToBeValid(ds)) {
+        return null;
+      }
+
+      return ds;
+    }
+
+    /**
+     * Reads the triangle vertices of an STL file into a Float32Array
+     *
+     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
+     * @return {Float23Array}
+     */
+    StlReader.prototype.read = function(fileData) {
+
+      var ds = checkValidity(fileData);
+
+      if (!ds) {
         return null;
       }
 
@@ -106,6 +128,23 @@
         reader = new StlAsciiReader();
         return reader.read(arrayBufferToString(fileData));
       }
+    };
+
+    /**
+     * Determines if an STL file is binary or ASCII
+     *
+     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
+     * @return {Boolean} true if the file is binary
+     */
+    StlReader.prototype.isBinary = function(fileData) {
+
+      var ds = checkValidity(fileData);
+
+      if (!ds) {
+        return false;
+      }
+
+      return isBinary(ds);
     };
 
     return StlReader;
