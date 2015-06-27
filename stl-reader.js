@@ -16,7 +16,6 @@
     }
 
     var StlReader = function(options) {
-      this.ds = null;
     };
 
     /* Header size is 80 bytes */
@@ -141,32 +140,34 @@
      */
     StlReader.prototype.isBinary = function(fileData) {
 
-      this.ds = checkValidity(fileData);
+      var ds = checkValidity(fileData);
 
-      if (!this.ds) {
+      if (!ds) {
         return false;
       }
 
-      return isBinary(this.ds);
+      return isBinary(ds);
     };
 
     /**
      * Reads a binary STL file and returns a Float32Array with the vertex
-     * normal data interleaved. You must first determine the type of the file
-     * by calling the isBinary function.
+     * normal data interleaved.
      *
+     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
      * @return {Float23Array} the interleaved vertex normal data if
      * successfully read else null
      */
-    StlReader.prototype.readBinary = function() {
+    StlReader.prototype.readBinary = function(fileData) {
 
-      if (!this.ds) {
+      var ds = checkValidity(fileData);
+
+      if (!ds) {
         return null;
       }
 
       var reader = new StlBinaryReader();
-      this.ds.seek(0);
-      return reader.read(this.ds);
+      ds.seek(0);
+      return reader.read(ds);
     };
 
     /**

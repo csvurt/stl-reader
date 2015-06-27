@@ -110,11 +110,13 @@ describe('StlReader', function () {
   it('should read a binary stl file successfully with the readBinary \
     function', function () {
     var data = fs.readFileSync('test/cube-binary.stl');
+    var abData = toArrayBuffer(data);
+
     var reader = new StlReader();
-    var isBinary = reader.isBinary(toArrayBuffer(data));
+    var isBinary = reader.isBinary(abData);
     expect(isBinary).to.be.true;
 
-    var vn = reader.readBinary();
+    var vn = reader.readBinary(abData);
     expect(vn.length).to.equal(3*2*3*12);
 
     // check the first vertex and normal
