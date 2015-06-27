@@ -16,6 +16,7 @@
     }
 
     var StlReader = function(options) {
+      this.ds = null;
     };
 
     /* Header size is 80 bytes */
@@ -104,10 +105,12 @@
     }
 
     /**
-     * Reads the triangle vertices of an STL file into a Float32Array
+     * Reads the triangle vertices of an STL file into a Float32Array. The
+     * type of the file - binary/ASCII - is automatically determined and
+     * the file is appropriately parsed.
      *
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @return {Float23Array}
+     * @return {Float23Array} the interleaved vertex normal data
      */
     StlReader.prototype.read = function(fileData) {
 
@@ -138,13 +141,32 @@
      */
     StlReader.prototype.isBinary = function(fileData) {
 
-      var ds = checkValidity(fileData);
+      this.ds = checkValidity(fileData);
 
-      if (!ds) {
+      if (!this.ds) {
         return false;
       }
 
-      return isBinary(ds);
+      return isBinary(this.ds);
+    };
+
+    /**
+     * Reads a binary STL file and returns a Float32Array with the vertex
+     * normal data interleaved. You must first determine the type of the file
+     * by calling the isBinary function.
+     *
+     * @return {Float23Array} the interleaved vertex normal data if
+     * successfully read else null
+     */
+    StlReader.prototype.readBinary = function() {
+
+      if (!this.ds) {
+        return null;
+      }
+
+      var reader = new StlBinaryReader();
+      this.ds.seek(0);
+      return reader.read(this.ds);
     };
 
     return StlReader;

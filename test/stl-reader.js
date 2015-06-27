@@ -53,7 +53,8 @@ describe('StlReader', function () {
     expect(isBinary).to.be.false;
   });
 
-  it('should read an ascii stl file successfully', function () {
+  it('should read an ascii stl file successfully with the read \
+    function', function () {
     var data = fs.readFileSync('test/cube.stl');
     var reader = new StlReader();
     var vn = reader.read(toArrayBuffer(data));
@@ -70,10 +71,32 @@ describe('StlReader', function () {
     expect(vn[5]).to.be.closeTo(-1, delta);
   });
 
-  it('should read a binary stl file successfully', function () {
+  it('should read a binary stl file successfully with the read \
+    function', function () {
     var data = fs.readFileSync('test/cube-binary.stl');
     var reader = new StlReader();
     var vn = reader.read(toArrayBuffer(data));
+    expect(vn.length).to.equal(3*2*3*12);
+
+    // check the first vertex and normal
+    var delta = 0.001;
+    expect(vn[0]).to.be.closeTo(0, delta);
+    expect(vn[1]).to.be.closeTo(0, delta);
+    expect(vn[2]).to.be.closeTo(0, delta);
+
+    expect(vn[3]).to.be.closeTo(0, delta);
+    expect(vn[4]).to.be.closeTo(0, delta);
+    expect(vn[5]).to.be.closeTo(-1, delta);
+  });
+
+  it('should read a binary stl file successfully with the readBinary \
+    function', function () {
+    var data = fs.readFileSync('test/cube-binary.stl');
+    var reader = new StlReader();
+    var isBinary = reader.isBinary(toArrayBuffer(data));
+    expect(isBinary).to.be.true;
+
+    var vn = reader.readBinary();
     expect(vn.length).to.equal(3*2*3*12);
 
     // check the first vertex and normal
