@@ -169,6 +169,21 @@
       return reader.read(this.ds);
     };
 
+    /**
+     * Reads an ASCII STL file and returns a Float32Array with the vertex
+     * normal data interleaved. Note that you need to pass the file data in
+     * as a string in this case.
+     *
+     * @param {String} str the file data as an ascii string
+     * @return {Float23Array} the interleaved vertex normal data if
+     * successfully read else null
+     */
+    StlReader.prototype.readAscii = function(str) {
+
+      var reader = new StlAsciiReader();
+      return reader.read(str);
+    };
+
     return StlReader;
   })();
 

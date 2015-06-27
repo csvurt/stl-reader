@@ -17,4 +17,9 @@ describe('StlReader functions', function () {
     var reader = new StlReader();
     expect(reader.readBinary).toBeDefined();
   });
+
+  it ('should have a readAscii function to read ascii STL files', function () {
+    var reader = new StlReader();
+    expect(reader.readAscii).toBeDefined();
+  });
 });
