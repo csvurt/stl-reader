@@ -133,6 +133,24 @@
     };
 
     /**
+     * Reads the triangle vertices of an STL file into a Float32Array. The
+     * type of the file - binary/ASCII - is automatically determined and
+     * the file is appropriately parsed.
+     *
+     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
+     * @param {Function} cb callback function which will be passed the
+     * parsed Float32Array if the file is read successfully
+     */
+    StlReader.prototype.readAsync = function(fileData, cb) {
+
+      setTimeout(function (self) {
+
+        var arr = self.read(fileData);
+        cb(arr);
+      }, 0, this);
+    };
+
+    /**
      * Determines if an STL file is binary or ASCII
      *
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
