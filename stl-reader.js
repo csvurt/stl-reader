@@ -168,6 +168,22 @@
     };
 
     /**
+     * Determines if an STL file is binary or ASCII
+     *
+     * @param {ArrayBuffer} fileData The file as an ArrayBuffer
+     * @param {Function} cb callback function which will be called with the
+     * boolean result
+     */
+    StlReader.prototype.isBinaryAsync = function(fileData, cb) {
+
+      setTimeout(function (self) {
+
+        var res = self.isBinary(fileData);
+        cb(res);
+      }, 0, this);
+    };
+
+    /**
      * Reads a binary STL file and returns a Float32Array with the vertex
      * normal data interleaved.
      *

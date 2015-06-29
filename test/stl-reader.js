@@ -53,6 +53,15 @@ describe('StlReader', function () {
     expect(isBinary).to.be.false;
   });
 
+  it('should determine file type using the isBinaryAsync function', function () {
+    var data = fs.readFileSync('test/cube.stl');
+    var reader = new StlReader();
+    reader.isBinaryAsync(toArrayBuffer(data), function (isBinary) {
+      expect(isBinary).to.be.false;
+      done();
+    });
+  });
+
   it('should read an ascii stl file successfully with the read \
     function', function () {
     var data = fs.readFileSync('test/cube.stl');
