@@ -49,9 +49,13 @@ server-side using npm.
 
 ## Client-side
 
+### Installation
+
 ```
 bower install stl-reader
 ```
+
+### Usage
 
 This library depends on the DataStream.js library to read binary STL files. You
 therefore will also need to install the DataStream.js library from
@@ -86,6 +90,33 @@ reader.onload = function(e) {
 reader.readAsArrayBuffer(f);
 ```
 
-The returned *vn* array contains interleaved vertex normal data, like so,
-[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal for directly passing
-to a vertex shader.
+The returned vn array contains interleaved vertex normal data, like so,
+[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a
+vertex shader.
+
+## Additional APIs
+
+If you already know that your STL file is ASCII or binary, then it is possible
+to read the file faster by directly using the *readBinary* or the *readAscii*
+APIs. There is also another API *isBinary* which can used to determine if the
+file is binary or ASCII.
+
+### Usage
+
+```JavaScript
+var data = fs.readFileSync('test/cube-binary.stl');
+var abData = toArrayBuffer(data);
+var vn;
+
+var reader = new StlReader();
+var isBinary = reader.isBinary(abData);
+
+if (isBinary) {
+  vn = reader.readBinary(abData);
+} else {
+  vn = reader.readAscii(data.toString());
+}
+```
+
+Note that while the *readBinary* API takes an ArrayBuffer as input, the
+*readAscii* API needs an ASCII string representation of the file as input.

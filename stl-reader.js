@@ -35,7 +35,7 @@
      * @param {DataStream} ds the file data as a DataStream
      * @returns {Boolean} true if the file is too small to be valid
      */
-    StlReader.isTooSmallToBeValid = function (ds) {
+    function isTooSmallToBeValid(ds) {
       ds.seek(0);
       if (ds.byteLength < StlReader.HEADER_SIZE + StlReader.TRI_COUNT_SIZE) {
         return true;
@@ -50,7 +50,7 @@
      * @param {DataStream} ds the file data as a DataStream
      * @returns {Boolean} true if the file is a binary STL file
      */
-    StlReader.isBinary = function (ds) {
+    function isBinary(ds) {
       ds.seek(0);
 
       var fileSize = ds.byteLength;
@@ -73,17 +73,22 @@
      * @param {ArrayBuffer} buf the ArrayBuffer to convert
      * @returns {string} the converted ascii string
      */
-    StlReader.arrayBufferToString = function (buf) {
+    function arrayBufferToString(buf) {
       return String.fromCharCode.apply(null, new Uint8Array(buf));
     };
 
     /**
-     * Reads the triangle vertices of an STL file into a Float32Array
+     * Checks if the ArrayBuffer is valid - that is, the data could
+     * theoretically be an STL file
      *
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @return {Float23Array}
+     * @return {DataStream} the DataStream for the file is valid else null
      */
-    StlReader.prototype.read = function(fileData) {
+    function checkValidity(fileData) {
+
+      if (!fileData) {
+        return null;
+      }
 
       if (fileData.byteLength === 0) {
         return null;
@@ -91,12 +96,31 @@
 
       var ds = new DataStream(fileData);
 
-      if (StlReader.isTooSmallToBeValid(ds)) {
+      if (isTooSmallToBeValid(ds)) {
+        return null;
+      }
+
+      return ds;
+    }
+
+    /**
+     * Reads the triangle vertices of an STL file into a Float32Array. The
+     * type of the file - binary/ASCII - is automatically determined and
+     * the file is appropriately parsed.
+     *
+     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
+     * @return {Float23Array} the interleaved vertex normal data
+     */
+    StlReader.prototype.read = function(fileData) {
+
+      var ds = checkValidity(fileData);
+
+      if (!ds) {
         return null;
       }
 
       var reader;
-      if (StlReader.isBinary(ds)) {
+      if (isBinary(ds)) {
 
         reader = new StlBinaryReader();
         ds.seek(0);
@@ -104,8 +128,114 @@
       } else {
 
         reader = new StlAsciiReader();
-        return reader.read(StlReader.arrayBufferToString(fileData));
+        return reader.read(arrayBufferToString(fileData));
       }
+    };
+
+    /**
+     * Reads the triangle vertices of an STL file into a Float32Array. The
+     * type of the file - binary/ASCII - is automatically determined and
+     * the file is appropriately parsed.
+     *
+     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
+     * @param {Function} cb callback function which will be passed the
+     * parsed Float32Array if the file is read successfully
+     */
+    StlReader.prototype.readAsync = function(fileData, cb) {
+
+      setTimeout(function (self) {
+
+        var arr = self.read(fileData);
+        cb(arr);
+      }, 0, this);
+    };
+
+    /**
+     * Determines if an STL file is binary or ASCII
+     *
+     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
+     * @return {Boolean} true if the file is binary
+     */
+    StlReader.prototype.isBinary = function(fileData) {
+
+      var ds = checkValidity(fileData);
+
+      if (!ds) {
+        return false;
+      }
+
+      return isBinary(ds);
+    };
+
+    /**
+     * Reads a binary STL file and returns a Float32Array with the vertex
+     * normal data interleaved.
+     *
+     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
+     * @return {Float23Array} the interleaved vertex normal data if
+     * successfully read else null
+     */
+    StlReader.prototype.readBinary = function(fileData) {
+
+      var ds = checkValidity(fileData);
+
+      if (!ds) {
+        return null;
+      }
+
+      var reader = new StlBinaryReader();
+      ds.seek(0);
+      return reader.read(ds);
+    };
+
+    /**
+     * Reads a binary STL file and returns a Float32Array with the vertex
+     * normal data interleaved.
+     *
+     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
+     * @param {Function} cb callback function which will be passed the
+     * parsed Float32Array if the file is read successfully
+     */
+    StlReader.prototype.readBinaryAsync = function(fileData, cb) {
+
+      setTimeout(function (self) {
+
+        var arr = self.readBinary(fileData);
+        cb(arr);
+      }, 0, this);
+    };
+
+    /**
+     * Reads an ASCII STL file and returns a Float32Array with the vertex
+     * normal data interleaved. Note that you need to pass the file data in
+     * as a string in this case.
+     *
+     * @param {String} str the file data as an ascii string
+     * @return {Float23Array} the interleaved vertex normal data if
+     * successfully read else null
+     */
+    StlReader.prototype.readAscii = function(str) {
+
+      var reader = new StlAsciiReader();
+      return reader.read(str);
+    };
+
+    /**
+     * Reads an ASCII STL file and returns a Float32Array with the vertex
+     * normal data interleaved. Note that you need to pass the file data in
+     * as a string in this case.
+     *
+     * @param {String} str the file data as an ascii string
+     * @param {Function} cb callback function which will be passed the
+     * parsed Float32Array if the file is read successfully
+     */
+    StlReader.prototype.readAsciiAsync = function(str) {
+
+      setTimeout(function (self) {
+
+        var arr = self.readAscii(str);
+        cb(arr);
+      }, 0, this);
     };
 
     return StlReader;
