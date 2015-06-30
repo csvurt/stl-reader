@@ -133,30 +133,6 @@
     };
 
     /**
-     * Reads the triangle vertices of an STL file into a Float32Array. The
-     * type of the file - binary/ASCII - is automatically determined and
-     * the file is appropriately parsed.
-     *
-     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @param {StlReader~onRead} cb callback function which will be passed the
-     * Float32Array if the file is read successfully
-     */
-    StlReader.prototype.readAsync = function(fileData, cb) {
-
-      setTimeout(function (self) {
-
-        var arr = self.read(fileData);
-        cb(arr);
-      }, 0, this);
-    };
-
-    /**
-     * Callback used by readAsync.
-     * @callback StlReader~onRead
-     * @param {Float32Array} arr the interleaved vertex normal data
-     */
-
-    /**
      * Determines if an STL file is binary or ASCII
      *
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
@@ -172,27 +148,6 @@
 
       return isBinary(ds);
     };
-
-    /**
-     * Determines if an STL file is binary or ASCII
-     *
-     * @param {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @param {StlReader~onIsBinary} cb callback called on completion
-     */
-    StlReader.prototype.isBinaryAsync = function(fileData, cb) {
-
-      setTimeout(function (self) {
-
-        var res = self.isBinary(fileData);
-        cb(res);
-      }, 0, this);
-    };
-
-    /**
-     * Callback used by isBinaryAsync.
-     * @callback StlReader~onIsBinary
-     * @param {Boolean} res true if the file is binary
-     */
 
     /**
      * Reads a binary STL file and returns a Float32Array with the vertex
@@ -216,29 +171,6 @@
     };
 
     /**
-     * Reads a binary STL file and returns a Float32Array with the vertex
-     * normal data interleaved.
-     *
-     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @param {StlReader~onReadBinary} cb callback function which will be passed the
-     * Float32Array if the file is read successfully
-     */
-    StlReader.prototype.readBinaryAsync = function(fileData, cb) {
-
-      setTimeout(function (self) {
-
-        var arr = self.readBinary(fileData);
-        cb(arr);
-      }, 0, this);
-    };
-
-    /**
-     * Callback used by readBinaryAsync.
-     * @callback StlReader~onReadBinary
-     * @param {Float32Array} arr the interleaved vertex normal data
-     */
-
-    /**
      * Reads an ASCII STL file and returns a Float32Array with the vertex
      * normal data interleaved. Note that you need to pass the file data in
      * as a string in this case.
@@ -252,30 +184,6 @@
       var reader = new StlAsciiReader();
       return reader.read(str);
     };
-
-    /**
-     * Reads an ASCII STL file and returns a Float32Array with the vertex
-     * normal data interleaved. Note that you need to pass the file data in
-     * as a string in this case.
-     *
-     * @param {String} str the file data as an ascii string
-     * @param {StlReader~onReadAscii} cb callback function which will be passed the
-     * Float32Array if the file is read successfully
-     */
-    StlReader.prototype.readAsciiAsync = function(str) {
-
-      setTimeout(function (self) {
-
-        var arr = self.readAscii(str);
-        cb(arr);
-      }, 0, this);
-    };
-
-    /**
-     * Callback used by readAsciiAsync.
-     * @callback StlReader~onReadAscii
-     * @param {Float32Array} arr the interleaved vertex normal data
-     */
 
     return StlReader;
   })();
