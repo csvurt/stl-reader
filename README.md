@@ -18,9 +18,12 @@ npm install stl-reader
 var fs = require('fs');
 var StlReader = require('stl-reader');
 ...
-var data = fs.readFileSync('test/cube-binary.stl');
-var stlReader = new StlReader();
-var vn = stlReader.read(toArrayBuffer(data));
+fs.readFile('test/cube-binary.stl', function (err, data) {
+  if (!err) {
+    var stlReader = new StlReader();
+    var vn = stlReader.read(toArrayBuffer(data));
+  }
+});
 ```
 
 The returned *vn* array contains interleaved vertex normal data, like so,
@@ -104,18 +107,21 @@ file is binary or ASCII.
 ### Usage
 
 ```JavaScript
-var data = fs.readFileSync('test/cube-binary.stl');
-var abData = toArrayBuffer(data);
-var vn;
+fs.readFile('test/cube-binary.stl', function (err, data) {
+  if (!err) {
+    var abData = toArrayBuffer(data);
+    var vn;
 
-var reader = new StlReader();
-var isBinary = reader.isBinary(abData);
+    var reader = new StlReader();
+    var isBinary = reader.isBinary(abData);
 
-if (isBinary) {
-  vn = reader.readBinary(abData);
-} else {
-  vn = reader.readAscii(data.toString());
-}
+    if (isBinary) {
+      vn = reader.readBinary(abData);
+    } else {
+      vn = reader.readAscii(data.toString());
+    }
+  }
+});
 ```
 
 Note that while the *readBinary* API takes an ArrayBuffer as input, the
