@@ -26,108 +26,124 @@ describe('StlReader', function () {
   });
 
   it('should return null for an invalid file', function () {
-    var data = fs.readFileSync('test/invalid.stl');
-    var reader = new StlReader();
-    var vn = reader.read(toArrayBuffer(data));
-    expect(vn).to.be.null;
+    fs.readFile('test/invalid.stl', function (err, data) {
+      var reader = new StlReader();
+      var vn = reader.read(toArrayBuffer(data));
+      expect(vn).to.be.null;
+      done();
+    });
   });
 
   it('should return null for an empty file', function () {
-    var data = fs.readFileSync('test/empty.stl');
-    var reader = new StlReader();
-    var vn = reader.read(toArrayBuffer(data));
-    expect(vn).to.be.null;
+    fs.readFile('test/empty.stl', function (err, data) {
+      var reader = new StlReader();
+      var vn = reader.read(toArrayBuffer(data));
+      expect(vn).to.be.null;
+      done();
+    });
   });
 
   it('should determine correctly if a file is a binary STL', function () {
-    var data = fs.readFileSync('test/cube-binary.stl');
-    var reader = new StlReader();
-    var isBinary = reader.isBinary(toArrayBuffer(data));
-    expect(isBinary).to.be.true;
+    fs.readFile('test/cube-binary.stl', function (err, data) {
+      var reader = new StlReader();
+      var isBinary = reader.isBinary(toArrayBuffer(data));
+      expect(isBinary).to.be.true;
+      done();
+    });
   });
 
   it('should determine correctly if a file is an ASCII STL', function () {
-    var data = fs.readFileSync('test/cube.stl');
-    var reader = new StlReader();
-    var isBinary = reader.isBinary(toArrayBuffer(data));
-    expect(isBinary).to.be.false;
+    fs.readFile('test/cube.stl', function (err, data) {
+      var reader = new StlReader();
+      var isBinary = reader.isBinary(toArrayBuffer(data));
+      expect(isBinary).to.be.false;
+      done();
+    });
   });
 
   it('should read an ascii stl file successfully with the read \
     function', function () {
-    var data = fs.readFileSync('test/cube.stl');
-    var reader = new StlReader();
-    var vn = reader.read(toArrayBuffer(data));
-    expect(vn.length).to.equal(3*2*3*12);
+    fs.readFile('test/cube.stl', function (err, data) {
+      var reader = new StlReader();
+      var vn = reader.read(toArrayBuffer(data));
+      expect(vn.length).to.equal(3*2*3*12);
 
-    // check the first vertex and normal
-    var delta = 0.001;
-    expect(vn[0]).to.be.closeTo(0, delta);
-    expect(vn[1]).to.be.closeTo(0, delta);
-    expect(vn[2]).to.be.closeTo(0, delta);
+      // check the first vertex and normal
+      var delta = 0.001;
+      expect(vn[0]).to.be.closeTo(0, delta);
+      expect(vn[1]).to.be.closeTo(0, delta);
+      expect(vn[2]).to.be.closeTo(0, delta);
 
-    expect(vn[3]).to.be.closeTo(0, delta);
-    expect(vn[4]).to.be.closeTo(0, delta);
-    expect(vn[5]).to.be.closeTo(-1, delta);
+      expect(vn[3]).to.be.closeTo(0, delta);
+      expect(vn[4]).to.be.closeTo(0, delta);
+      expect(vn[5]).to.be.closeTo(-1, delta);
+      done();
+    });
   });
 
   it('should read an ascii stl file successfully with the readAscii \
     function', function () {
-    var data = fs.readFileSync('test/cube.stl');
-    var reader = new StlReader();
-    var vn = reader.readAscii(data.toString());
-    expect(vn.length).to.equal(3*2*3*12);
+    fs.readFile('test/cube.stl', function (err, data) {
+      var reader = new StlReader();
+      var vn = reader.readAscii(data.toString());
+      expect(vn.length).to.equal(3*2*3*12);
 
-    // check the first vertex and normal
-    var delta = 0.001;
-    expect(vn[0]).to.be.closeTo(0, delta);
-    expect(vn[1]).to.be.closeTo(0, delta);
-    expect(vn[2]).to.be.closeTo(0, delta);
+      // check the first vertex and normal
+      var delta = 0.001;
+      expect(vn[0]).to.be.closeTo(0, delta);
+      expect(vn[1]).to.be.closeTo(0, delta);
+      expect(vn[2]).to.be.closeTo(0, delta);
 
-    expect(vn[3]).to.be.closeTo(0, delta);
-    expect(vn[4]).to.be.closeTo(0, delta);
-    expect(vn[5]).to.be.closeTo(-1, delta);
+      expect(vn[3]).to.be.closeTo(0, delta);
+      expect(vn[4]).to.be.closeTo(0, delta);
+      expect(vn[5]).to.be.closeTo(-1, delta);
+      done();
+    });
   });
 
   it('should read a binary stl file successfully with the read \
     function', function () {
-    var data = fs.readFileSync('test/cube-binary.stl');
-    var reader = new StlReader();
-    var vn = reader.read(toArrayBuffer(data));
-    expect(vn.length).to.equal(3*2*3*12);
+    fs.readFile('test/cube-binary.stl', function (err, data) {
+      var reader = new StlReader();
+      var vn = reader.read(toArrayBuffer(data));
+      expect(vn.length).to.equal(3*2*3*12);
 
-    // check the first vertex and normal
-    var delta = 0.001;
-    expect(vn[0]).to.be.closeTo(0, delta);
-    expect(vn[1]).to.be.closeTo(0, delta);
-    expect(vn[2]).to.be.closeTo(0, delta);
+      // check the first vertex and normal
+      var delta = 0.001;
+      expect(vn[0]).to.be.closeTo(0, delta);
+      expect(vn[1]).to.be.closeTo(0, delta);
+      expect(vn[2]).to.be.closeTo(0, delta);
 
-    expect(vn[3]).to.be.closeTo(0, delta);
-    expect(vn[4]).to.be.closeTo(0, delta);
-    expect(vn[5]).to.be.closeTo(-1, delta);
+      expect(vn[3]).to.be.closeTo(0, delta);
+      expect(vn[4]).to.be.closeTo(0, delta);
+      expect(vn[5]).to.be.closeTo(-1, delta);
+      done();
+    });
   });
 
   it('should read a binary stl file successfully with the readBinary \
     function', function () {
-    var data = fs.readFileSync('test/cube-binary.stl');
-    var abData = toArrayBuffer(data);
+    fs.readFile('test/cube-binary.stl', function (err, data) {
+      var abData = toArrayBuffer(data);
 
-    var reader = new StlReader();
-    var isBinary = reader.isBinary(abData);
-    expect(isBinary).to.be.true;
+      var reader = new StlReader();
+      var isBinary = reader.isBinary(abData);
+      expect(isBinary).to.be.true;
 
-    var vn = reader.readBinary(abData);
-    expect(vn.length).to.equal(3*2*3*12);
+      var vn = reader.readBinary(abData);
+      expect(vn.length).to.equal(3*2*3*12);
 
-    // check the first vertex and normal
-    var delta = 0.001;
-    expect(vn[0]).to.be.closeTo(0, delta);
-    expect(vn[1]).to.be.closeTo(0, delta);
-    expect(vn[2]).to.be.closeTo(0, delta);
+      // check the first vertex and normal
+      var delta = 0.001;
+      expect(vn[0]).to.be.closeTo(0, delta);
+      expect(vn[1]).to.be.closeTo(0, delta);
+      expect(vn[2]).to.be.closeTo(0, delta);
 
-    expect(vn[3]).to.be.closeTo(0, delta);
-    expect(vn[4]).to.be.closeTo(0, delta);
-    expect(vn[5]).to.be.closeTo(-1, delta);
+      expect(vn[3]).to.be.closeTo(0, delta);
+      expect(vn[4]).to.be.closeTo(0, delta);
+      expect(vn[5]).to.be.closeTo(-1, delta);
+      done();
+    });
   });
 
 });
