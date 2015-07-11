@@ -42,7 +42,7 @@
       }
 
       return false;
-    };
+    }
 
     /**
      * Check if the file is a binary STL file.
@@ -65,7 +65,7 @@
       }
 
       return false;
-    };
+    }
 
     /**
      * Converts ArrayBuffer to a string.
@@ -75,7 +75,7 @@
      */
     function arrayBufferToString(buf) {
       return String.fromCharCode.apply(null, new Uint8Array(buf));
-    };
+    }
 
     /**
      * Checks if the ArrayBuffer is valid - that is, the data could

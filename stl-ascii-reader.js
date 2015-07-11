@@ -13,9 +13,9 @@
      * @returns {Array} containing the words
      */
     StlAsciiReader.splitLineIntoWords = function (line) {
-      
+
       var lineWords = line.trim().split(' ');
-      
+
       for (var i = lineWords.length-1; i >= 0; i--) {
         if (lineWords[i].length === 0) {
           lineWords.splice(i, 1);
@@ -29,7 +29,7 @@
      * Read a single vertex
      *
      * @param {String} line containing the vertex
-     * @returns {Array} containing the vertex coordinates 
+     * @returns {Array} containing the vertex coordinates
      */
     StlAsciiReader.readVertex = function (line) {
 
@@ -50,7 +50,7 @@
      * @returns {Array} contaning the normal coordinates
      */
     StlAsciiReader.readNormal = function (line) {
-      
+
       var lineWords = StlAsciiReader.splitLineIntoWords(line);
       var normal = [];
 
@@ -94,6 +94,9 @@
         if (lineWords[0] == 'facet') {
           var facet = StlAsciiReader.readFacet(lines, i);
           facets.push(facet);
+
+          // skip to the next facet
+          i += 6;
         }
       }
 
@@ -101,9 +104,9 @@
     };
 
     /**
-     * Converts the facets into a Float32Array with interleaved vertex and 
+     * Converts the facets into a Float32Array with interleaved vertex and
      * normal data.
-     * 
+     *
      * @param {Array} facets the array of facets
      * @return {Float32Array} contains the interleaved vertex normal data
      */
@@ -137,7 +140,7 @@
     StlAsciiReader.prototype.read = function(fileData) {
       var lines = fileData.split('\n');
       var facets = StlAsciiReader.readSolid(lines);
-      var floatArray = StlAsciiReader.convertFacetsToFloat32Array(facets);  
+      var floatArray = StlAsciiReader.convertFacetsToFloat32Array(facets);
       return floatArray;
     };
 
