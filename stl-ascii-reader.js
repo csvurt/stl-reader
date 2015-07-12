@@ -81,54 +81,49 @@
     };
 
     /**
-     * Read the STL solid
-     *
-     * @param {Array} the lines of the STL file
-     * @returns {Array} contains the facet data
-     */
-    StlAsciiReader.readSolid = function(lines) {
-
-      var facets = [];
-      for (var i = 0; i< lines.length; i++) {
-        var lineWords = lines[i].trim().split(' ');
-        if (lineWords[0] == 'facet') {
-          var facet = StlAsciiReader.readFacet(lines, i);
-          facets.push(facet);
-
-          // skip to the next facet
-          i += 6;
-        }
-      }
-
-      return facets;
-    };
-
-    /**
      * Converts the facets into a Float32Array with interleaved vertex and
      * normal data.
      *
      * @param {Array} facets the array of facets
      * @return {Float32Array} contains the interleaved vertex normal data
      */
-    StlAsciiReader.convertFacetsToFloat32Array = function (facets) {
+    StlAsciiReader.pushFacetIntoFloat32Array = function (facet, vn, idx) {
 
-      var floatArray = new Float32Array(facets.length*3*2*3);
-      for (var i = 0; i< facets.length; i++) {
+      var normal = facet.normal;
+      for (var j = 0; j < 3; j++) {
+        for (var k = 0; k < 3; k++) {
+          vn[idx+j*6+k] = facet.verts[j][k];
+        }
 
-        var normal = facets[i].normal;
-        for (var j = 0; j < 3; j++) {
-          for (var k = 0; k < 3; k++) {
-            floatArray[i*18+j*6+k] = facets[i].verts[j][k];
-          }
-
-          // copy the normal after each vertex
-          for (k = 0; k < 3; k++) {
-            floatArray[i*18+j*6+3+k] = facets[i].normal[k];
-          }
+        // copy the normal after each vertex
+        for (k = 0; k < 3; k++) {
+          vn[idx+j*6+3+k] = facet.normal[k];
         }
       }
+    };
 
-      return floatArray;
+    /**
+     * Read the STL solid
+     *
+     * @param {Array} the lines of the STL file
+     * @returns {Array} contains the facet data
+     */
+    StlAsciiReader.readSolid = function(lines, vn) {
+
+      var facetCount = 0;
+
+      for (var i = 0; i< lines.length; i++) {
+        var lineWords = lines[i].trim().split(' ');
+        if (lineWords[0] == 'facet') {
+          var facet = StlAsciiReader.readFacet(lines, i);
+
+          pushFacetIntoFloat32Array(facet, vn, facetCount*18);
+          facetCount += 1;
+
+          // skip to the next facet
+          i += 6;
+        }
+      }
     };
 
     /**
@@ -139,9 +134,12 @@
      */
     StlAsciiReader.prototype.read = function(fileData) {
       var lines = fileData.split('\n');
-      var facets = StlAsciiReader.readSolid(lines);
-      var floatArray = StlAsciiReader.convertFacetsToFloat32Array(facets);
-      return floatArray;
+
+      var numTriangles = parseInt(lines.length/7);
+      var vn = new Float32Array(numTriangles*18);
+
+      StlAsciiReader.readSolid(lines, vn);
+      return vn;
     };
 
     return StlAsciiReader;
