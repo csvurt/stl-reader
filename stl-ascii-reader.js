@@ -84,8 +84,9 @@
      * Converts the facets into a Float32Array with interleaved vertex and
      * normal data.
      *
-     * @param {Array} facets the array of facets
-     * @return {Float32Array} contains the interleaved vertex normal data
+     * @param {Object} facet the facet object with the vertices and normal
+     * @param {Float32Array} vn the interleaved vertex normal data to be populated
+     * @param {Number} idx the index at which to insert the facet data
      */
     StlAsciiReader.pushFacetIntoFloat32Array = function (facet, vn, idx) {
 
@@ -105,8 +106,8 @@
     /**
      * Read the STL solid
      *
-     * @param {Array} the lines of the STL file
-     * @returns {Array} contains the facet data
+     * @param {Array} lines the lines of the STL file
+     * @param {Float32Array} vn the interleaved vertex normal data to be populated
      */
     StlAsciiReader.readSolid = function(lines, vn) {
 
