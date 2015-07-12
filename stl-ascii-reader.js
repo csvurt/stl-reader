@@ -6,6 +6,12 @@
     var StlAsciiReader = function(options) {
     };
 
+    /* Number of lines per facet in the STL file */
+    StlAsciiReader.LINES_PER_FACET = 7;
+
+    /* Number of floating point values in a triangle */
+    StlAsciiReader.NUM_FLOATS_IN_TRI = 18;
+
     /**
      * Split line into words
      *
@@ -118,7 +124,8 @@
         if (lineWords[0] == 'facet') {
           var facet = StlAsciiReader.readFacet(lines, i);
 
-          pushFacetIntoFloat32Array(facet, vn, facetCount*18);
+          pushFacetIntoFloat32Array(facet, vn,
+            facetCount*StlAsciiReader.NUM_FLOATS_IN_TRI);
           facetCount += 1;
 
           // skip to the next facet
@@ -136,8 +143,9 @@
     StlAsciiReader.prototype.read = function(fileData) {
       var lines = fileData.split('\n');
 
-      var numTriangles = parseInt(lines.length/7);
-      var vn = new Float32Array(numTriangles*18);
+      var numTriangles = parseInt(lines.length/StlAsciiReader.LINES_PER_FACET);
+      var vn = new Float32Array(numTriangles*
+        StlAsciiReader.NUM_FLOATS_IN_TRI);
 
       StlAsciiReader.readSolid(lines, vn);
       return vn;
