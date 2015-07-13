@@ -32,6 +32,25 @@
     };
 
     /**
+     * Read a vector
+     *
+     * @param {String} line containing the vector
+     * @param {Number} idx index of word from where to read
+     * @returns {Array} containing the vertex coordinates
+     */
+    StlAsciiReader.readVector = function (line, idx) {
+
+      var lineWords = StlAsciiReader.splitLineIntoWords(line);
+      var vector = [];
+
+      for (var i = 0; i< 3; i++) {
+        vector.push(parseFloat(lineWords[idx+i]));
+      }
+
+      return vector;
+    };
+
+    /**
      * Read a single vertex
      *
      * @param {String} line containing the vertex
@@ -39,14 +58,7 @@
      */
     StlAsciiReader.readVertex = function (line) {
 
-      var lineWords = StlAsciiReader.splitLineIntoWords(line);
-      var vertex = [];
-
-      for (var i = 0; i< 3; i++) {
-        vertex.push(parseFloat(lineWords[1+i]));
-      }
-
-      return vertex;
+      return StlAsciiReader.readVector(line, 1);
     };
 
     /**
@@ -57,14 +69,7 @@
      */
     StlAsciiReader.readNormal = function (line) {
 
-      var lineWords = StlAsciiReader.splitLineIntoWords(line);
-      var normal = [];
-
-      for (var i = 0; i< 3; i++) {
-        normal.push(parseFloat(lineWords[2+i]));
-      }
-
-      return normal;
+      return StlAsciiReader.readVector(line, 2);
     };
 
     /**
