@@ -1,5 +1,7 @@
 # StlReader
 
+[![License](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](http://opensource.org/licenses/MIT)
+
 JavaScript library for parsing STL (Stereolithography) files into interleaved
 vertex normal Float32Arrays that can be directly passed into WebGL for
 rendering.
