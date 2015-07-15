@@ -17,6 +17,18 @@ function checkValidData(vn) {
 
   // check the first vertex and normal
   var delta = 0.001;
+
+  var vn1 = [0, 0, 0, 0, 0, -1];
+  var vn2 = [1, 1, 0, 0, 0, -1];
+  var vn5 = [0, 1, 0, 0, 0, -1];
+
+  for (var i = 0; i< 3; i++) {
+    expect(vn[i]).to.be.closeTo(vn1[i], delta);
+    expect(vn[i+6]).to.be.closeTo(vn2[i], delta);
+    expect(vn[i+6*4]).to.be.closeTo(vn5[i], delta);
+  }
+
+  /*
   expect(vn[0]).to.be.closeTo(0, delta);
   expect(vn[1]).to.be.closeTo(0, delta);
   expect(vn[2]).to.be.closeTo(0, delta);
@@ -44,6 +56,7 @@ function checkValidData(vn) {
   expect(vn[27]).to.be.closeTo(0, delta);
   expect(vn[28]).to.be.closeTo(0, delta);
   expect(vn[29]).to.be.closeTo(-1, delta);
+  */
 }
 
 describe('StlReader', function () {
