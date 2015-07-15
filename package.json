@@ -16,7 +16,7 @@
     "reader",
     "stereolithography"
   ],
-  "author": "Tat <tatchx@gmail.com> (https://github.com/tatchx)",
+  "author": "Tommy Conway <tmycnw@gmail.com> (https://github.com/tatchx)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/tatchx/stl-reader/issues"

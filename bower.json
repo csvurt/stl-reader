@@ -4,7 +4,7 @@
   "version": "1.1.2",
   "homepage": "https://github.com/tatchx/stl-reader",
   "authors": [
-    "Tat <tatchx@gmail.com>"
+    "Tommy Conway <tmycnw@gmail.com>"
   ],
   "description": "Library for parsing STL (Stereolithography) files into typed arrays for WebGL rendering",
   "keywords": [
