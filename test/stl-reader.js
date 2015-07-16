@@ -113,6 +113,17 @@ describe('StlReader', function () {
     });
   });
 
+  it('should read a large binary stl file successfully with the read \
+    function', function () {
+    fs.readFile('test/large-binary.stl', function (err, data) {
+      var reader = new StlReader();
+      var vn = reader.read(toArrayBuffer(data));
+      expect(vn.length).to.equal(68436);
+
+      done();
+    });
+  });
+
   it('should read a binary stl file successfully with the readBinary \
     function', function () {
     fs.readFile('test/cube-binary.stl', function (err, data) {
