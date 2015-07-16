@@ -41,7 +41,7 @@ describe('StlReader', function () {
     expect(reader.isBinary).to.exist;
   });
 
-  it('should return null for an invalid file', function () {
+  it('should return null for an invalid file', function (done) {
     fs.readFile('test/invalid.stl', function (err, data) {
       var reader = new StlReader();
       var vn = reader.read(toArrayBuffer(data));
@@ -50,7 +50,7 @@ describe('StlReader', function () {
     });
   });
 
-  it('should return null for an empty file', function () {
+  it('should return null for an empty file', function (done) {
     fs.readFile('test/empty.stl', function (err, data) {
       var reader = new StlReader();
       var vn = reader.read(toArrayBuffer(data));
@@ -59,7 +59,7 @@ describe('StlReader', function () {
     });
   });
 
-  it('should determine correctly if a file is a binary STL', function () {
+  it('should determine correctly if a file is a binary STL', function (done) {
     fs.readFile('test/cube-binary.stl', function (err, data) {
       var reader = new StlReader();
       var isBinary = reader.isBinary(toArrayBuffer(data));
@@ -68,7 +68,7 @@ describe('StlReader', function () {
     });
   });
 
-  it('should determine correctly if a file is an ASCII STL', function () {
+  it('should determine correctly if a file is an ASCII STL', function (done) {
     fs.readFile('test/cube.stl', function (err, data) {
       var reader = new StlReader();
       var isBinary = reader.isBinary(toArrayBuffer(data));
@@ -78,7 +78,7 @@ describe('StlReader', function () {
   });
 
   it('should read an ascii stl file successfully with the read \
-    function', function () {
+    function', function (done) {
     fs.readFile('test/cube.stl', function (err, data) {
       var reader = new StlReader();
       var vn = reader.read(toArrayBuffer(data));
@@ -89,20 +89,20 @@ describe('StlReader', function () {
     });
   });
 
-  it('should read a large ascii stl file successfully with the read \
-    function', function () {
+  /*it('should read a large ascii stl file successfully with the read \
+    function', function (done) {
     fs.readFile('test/large-ascii.stl', function (err, data) {
+      console.log(data);
       var reader = new StlReader();
       var vn = reader.read(toArrayBuffer(data));
-      //expect(vn.length).to.equal(3*2*3*12);
-      console.log(vn.length);
+      expect(vn.length).to.equal(686556);
 
       done();
     });
-  });
+  });*/
 
   it('should read an ascii stl file successfully with the readAscii \
-    function', function () {
+    function', function (done) {
     fs.readFile('test/cube.stl', function (err, data) {
       var reader = new StlReader();
       var vn = reader.readAscii(data.toString());
@@ -113,8 +113,20 @@ describe('StlReader', function () {
     });
   });
 
+  it('should read a large ascii stl file successfully with the readAscii \
+    function', function (done) {
+
+    fs.readFile('test/large-ascii.stl', function (err, data) {
+      var reader = new StlReader();
+      var vn = reader.readAscii(data.toString());
+      expect(vn.length).to.equal(686556);
+
+      done();
+    });
+  });
+
   it('should read a binary stl file successfully with the read \
-    function', function () {
+    function', function (done) {
     fs.readFile('test/cube-binary.stl', function (err, data) {
       var reader = new StlReader();
       var vn = reader.read(toArrayBuffer(data));
@@ -126,7 +138,7 @@ describe('StlReader', function () {
   });
 
   it('should read a large binary stl file successfully with the read \
-    function', function () {
+    function', function (done) {
     fs.readFile('test/large-binary.stl', function (err, data) {
       var reader = new StlReader();
       var vn = reader.read(toArrayBuffer(data));
@@ -137,7 +149,7 @@ describe('StlReader', function () {
   });
 
   it('should read a binary stl file successfully with the readBinary \
-    function', function () {
+    function', function (done) {
     fs.readFile('test/cube-binary.stl', function (err, data) {
       var abData = toArrayBuffer(data);
 

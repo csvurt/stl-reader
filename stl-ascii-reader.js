@@ -129,7 +129,7 @@
         if (lineWords[0] == 'facet') {
           var facet = StlAsciiReader.readFacet(lines, i);
 
-          pushFacetIntoFloat32Array(facet, vn,
+          StlAsciiReader.pushFacetIntoFloat32Array(facet, vn,
             facetCount*StlAsciiReader.NUM_FLOATS_IN_TRI);
           facetCount += 1;
 
@@ -146,11 +146,11 @@
      * @return {Float23Array} contains interleaved vertex normal data
      */
     StlAsciiReader.prototype.read = function(fileData) {
+
       var lines = fileData.split('\n');
 
       var numTriangles = parseInt(lines.length/StlAsciiReader.LINES_PER_FACET);
-      var vn = new Float32Array(numTriangles*
-        StlAsciiReader.NUM_FLOATS_IN_TRI);
+      var vn = new Float32Array(numTriangles*StlAsciiReader.NUM_FLOATS_IN_TRI);
 
       StlAsciiReader.readSolid(lines, vn);
       return vn;
