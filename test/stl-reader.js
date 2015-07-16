@@ -27,36 +27,6 @@ function checkValidData(vn) {
     expect(vn[i+6]).to.be.closeTo(vn2[i], delta);
     expect(vn[i+6*4]).to.be.closeTo(vn5[i], delta);
   }
-
-  /*
-  expect(vn[0]).to.be.closeTo(0, delta);
-  expect(vn[1]).to.be.closeTo(0, delta);
-  expect(vn[2]).to.be.closeTo(0, delta);
-
-  expect(vn[3]).to.be.closeTo(0, delta);
-  expect(vn[4]).to.be.closeTo(0, delta);
-  expect(vn[5]).to.be.closeTo(-1, delta);
-
-  // second vertex and normal
-  expect(vn[6]).to.be.closeTo(1, delta);
-  expect(vn[7]).to.be.closeTo(1, delta);
-  expect(vn[8]).to.be.closeTo(0, delta);
-
-  expect(vn[9]).to.be.closeTo(0, delta);
-  expect(vn[10]).to.be.closeTo(0, delta);
-  expect(vn[11]).to.be.closeTo(-1, delta);
-
-  // skipping the third and fourth vertices
-
-  // check fifth vertex and normal
-  expect(vn[24]).to.be.closeTo(0, delta);
-  expect(vn[25]).to.be.closeTo(1, delta);
-  expect(vn[26]).to.be.closeTo(0, delta);
-
-  expect(vn[27]).to.be.closeTo(0, delta);
-  expect(vn[28]).to.be.closeTo(0, delta);
-  expect(vn[29]).to.be.closeTo(-1, delta);
-  */
 }
 
 describe('StlReader', function () {
