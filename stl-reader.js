@@ -78,6 +78,23 @@
     }
 
     /**
+     * Converts ArrayBuffer to a string.
+     *
+     * @param {ArrayBuffer} buf the ArrayBuffer to convert
+     * @param {Function} callback the callback function that receives the converted string
+     */
+    function arrayBuffer2String(buf, callback) {
+
+      var blob = new Blob(buf, {type: 'application/octet-binary'});
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        callback(reader.result)
+      }
+      reader.readAsText(blob);
+    }
+
+    /**
      * Checks if the ArrayBuffer is valid - that is, the data could
      * theoretically be an STL file
      *
@@ -129,6 +146,39 @@
 
         reader = new StlAsciiReader();
         return reader.read(arrayBufferToString(fileData));
+      }
+    };
+
+    /**
+     * Reads the triangle vertices of an STL file into a Float32Array. The
+     * type of the file - binary/ASCII - is automatically determined and
+     * the file is appropriately parsed.
+     *
+     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
+     * @param {Function} callback the callback that receives the Float32Array
+     */
+    StlReader.prototype.readAsync = function(fileData, callback) {
+
+      var ds = checkValidity(fileData);
+
+      if (!ds) {
+        callback(null);
+        return;
+      }
+
+      var reader;
+      if (isBinary(ds)) {
+
+        reader = new StlBinaryReader();
+        ds.seek(0);
+        callback(reader.read(ds));
+      } else {
+
+        reader = new StlAsciiReader();
+
+        arrayBuffer2String(fileData, function (str) {
+          callback(reader.read(str));
+        });
       }
     };
 
