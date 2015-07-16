@@ -126,7 +126,7 @@ vertex shader.
 
 ### Reading large ASCII STL files client-side
 
-When reading large ASCII STL files on the client-side with Node.js you will get
+When reading large ASCII STL files on the client-side inside a browser you will get
 a RangeError (RangeError: Maximum call stack size exceeded) when using both the
 *read* and the *readAscii* functions. In this case it is best to use the
 *readAsync* function. The *readAsync* function takes a callback that receives
