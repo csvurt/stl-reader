@@ -32,7 +32,7 @@ The returned *vn* array contains interleaved vertex normal data, like so,
 [Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal for directly passing
 to a vertex shader.
 
-The *read()* function takes as input an ArrayBuffer. You can use the function
+The *read* function takes as input an ArrayBuffer. You can use the function
 below to convert a Node Buffer to an ArrayBuffer (see discussion regarding this
 code snippet [here](http://stackoverflow.com/questions/8609289/convert-a-binary-nodejs-buffer-to-javascript-arraybuffer)).
 
@@ -51,6 +51,31 @@ This library depends on the [DataStream.js](https://github.com/kig/DataStream.js
 library to read binary STL files. A version of the DataStream.js library is
 installed automatically as a dependency when this library is installed
 server-side using npm.
+
+### Reading large ASCII STL files server-side
+
+When reading large ASCII STL files on the server-side with Node.js using the
+*read* function you will get a RangeError (RangeError: Maximum call stack size
+exceeded). It is therefore best to use the *readAscii* for reading ASCII files
+(see the Additional APIs section at the end).
+
+```JavaScript
+fs.readFile('test/large-ascii.stl', function (err, data) {
+  if (!err) {
+    var abData = toArrayBuffer(data);
+    var vn;
+
+    var reader = new StlReader();
+    var isBinary = reader.isBinary(abData);
+
+    if (isBinary) {
+      vn = reader.readBinary(abData);
+    } else {
+      vn = reader.readAscii(data.toString());
+    }
+  }
+});
+```
 
 ## Client-side
 
@@ -98,6 +123,30 @@ reader.readAsArrayBuffer(f);
 The returned vn array contains interleaved vertex normal data, like so,
 [Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a
 vertex shader.
+
+### Reading large ASCII STL files client-side
+
+When reading large ASCII STL files on the client-side with Node.js you will get
+a RangeError (RangeError: Maximum call stack size exceeded) when using both the
+*read* and the *readAscii* functions. In this case it is best to use the
+*readAsync* function. The *readAsync* function takes a callback that receives
+the interleaved vertex normal array.
+
+```Javascript
+var reader = new FileReader();
+
+reader.onload = function () {
+  var stlReader, data;
+
+  data = reader.result;
+  stlReader = new StlReader();
+  stlReader.readAsync(data, function (vn) {
+
+  });
+};
+
+reader.readAsArrayBuffer(fileData);
+```
 
 ## Additional APIs
 
