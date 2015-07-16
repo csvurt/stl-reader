@@ -85,7 +85,7 @@
      */
     function arrayBuffer2String(buf, callback) {
 
-      var blob = new Blob(buf, {type: 'application/octet-binary'});
+      var blob = new Blob([buf], {type: 'application/octet-binary'});
 
       var reader = new FileReader();
       reader.onload = function(e) {
