@@ -89,6 +89,18 @@ describe('StlReader', function () {
     });
   });
 
+  it('should read a large ascii stl file successfully with the read \
+    function', function () {
+    fs.readFile('test/large-ascii.stl', function (err, data) {
+      var reader = new StlReader();
+      var vn = reader.read(toArrayBuffer(data));
+      //expect(vn.length).to.equal(3*2*3*12);
+      console.log(vn.length);
+
+      done();
+    });
+  });
+
   it('should read an ascii stl file successfully with the readAscii \
     function', function () {
     fs.readFile('test/cube.stl', function (err, data) {
