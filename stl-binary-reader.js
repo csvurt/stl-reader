@@ -7,16 +7,16 @@
     };
 
     /* Header size is 80 bytes */
-    StlBinaryReader.HEADER_SIZE = 80;
+    var HEADER_SIZE = 80;
 
     /**
      * Reads the binary STL header
      *
      * @param  {DataStream} ds the file DataStream object
      */
-    StlBinaryReader.readHeader = function (ds) {
-      ds.readUint8Array(StlBinaryReader.HEADER_SIZE);
-    };
+    function readHeader(ds) {
+      ds.readUint8Array(HEADER_SIZE);
+    }
 
     /**
      * Copy a vert/normal into an existing array
@@ -25,12 +25,12 @@
      * @param {Float32Array} arr the array to copy into
      * @param {number} idx the index from which to start copying
      */
-    StlBinaryReader.readVec3IntoArray = function (vec, arr, idx) {
+    function readVec3IntoArray(vec, arr, idx) {
 
       for (var i = 0; i< 3; i++) {
         arr[idx + i] = vec[i];
       }
-    };
+    }
 
     /**
      * Read each individual triangle
@@ -39,19 +39,19 @@
      * @param {Float32Array} arr the array to read the triangle data into
      * @param {number} idx the index in the array from where to start
      */
-    StlBinaryReader.readTriangle = function (ds, arr, idx) {
+    function readTriangle(ds, arr, idx) {
 
       var normal = ds.readFloat32Array(3);
       for (var i = 0; i<3; i++) {
 
         var vert = ds.readFloat32Array(3);
 
-        StlBinaryReader.readVec3IntoArray(vert, arr, idx + i*6);
-        StlBinaryReader.readVec3IntoArray(normal, arr, idx + i*6 + 3);
+        readVec3IntoArray(vert, arr, idx + i*6);
+        readVec3IntoArray(normal, arr, idx + i*6 + 3);
       }
 
       ds.readUint16();
-    };
+    }
 
     /**
      * Reads the binary STL triangles
@@ -59,17 +59,17 @@
      * @param  {DataStream} ds the file DataStream object
      * @returns {Float32Array} the typed array with the interleaved data.
      */
-    StlBinaryReader.readTriangles = function (ds) {
+    function readTriangles(ds) {
 
       var numTri = ds.readUint32();
       var typedArray = new Float32Array(numTri*3*3*2);
 
       for (var i = 0; i< numTri; i++) {
-        StlBinaryReader.readTriangle(ds, typedArray, i*3*3*2);
+        readTriangle(ds, typedArray, i*3*3*2);
       }
 
       return typedArray;
-    };
+    }
 
     /**
      * Reads the triangle vertices of a binary STL file into a Float32Array
@@ -79,8 +79,8 @@
      */
     StlBinaryReader.prototype.read = function(ds) {
 
-      StlBinaryReader.readHeader(ds);
-      return StlBinaryReader.readTriangles(ds);
+      readHeader(ds);
+      return readTriangles(ds);
     };
 
     return StlBinaryReader;
