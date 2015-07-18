@@ -176,9 +176,15 @@
 
         reader = new StlAsciiReader();
 
-        arrayBuffer2String(fileData, function (str) {
-          callback(reader.read(str));
-        });
+        if (typeof Blob !== 'undefined') {
+          arrayBuffer2String(fileData, function (str) {
+            callback(reader.read(str));
+          });
+        } else {
+
+          var buf = new Buffer(new Uint8Array(fileData));
+          callback(reader.read(buf.toString()));
+        }
       }
     };
 
