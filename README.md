@@ -20,11 +20,10 @@ npm install stl-reader
 var fs = require('fs');
 var StlReader = require('stl-reader');
 ...
-fs.readFile('test/cube-binary.stl', function (err, data) {
-  if (!err) {
-    var stlReader = new StlReader();
-    var vn = stlReader.read(toArrayBuffer(data));
-  }
+fs.readFile('test/cube.stl', function (err, data) {
+  StlReader.read(toArrayBuffer(data), function (vn) {
+
+  });
 });
 ```
 
@@ -51,31 +50,6 @@ This library depends on the [DataStream.js](https://github.com/kig/DataStream.js
 library to read binary STL files. A version of the DataStream.js library is
 installed automatically as a dependency when this library is installed
 server-side using npm.
-
-### Reading large ASCII STL files server-side
-
-When reading large ASCII STL files on the server-side with Node.js using the
-*read* function you will get a RangeError (RangeError: Maximum call stack size
-exceeded). It is therefore best to use the *readAscii* for reading ASCII files
-(see the Additional APIs section at the end).
-
-```JavaScript
-fs.readFile('test/large-ascii.stl', function (err, data) {
-  if (!err) {
-    var abData = toArrayBuffer(data);
-    var vn;
-
-    var reader = new StlReader();
-    var isBinary = reader.isBinary(abData);
-
-    if (isBinary) {
-      vn = reader.readBinary(abData);
-    } else {
-      vn = reader.readAscii(data.toString());
-    }
-  }
-});
-```
 
 ## Client-side
 
@@ -111,36 +85,12 @@ Use an instance of the FileReader class to read the local file as an ArrayBuffer
 ```Javascript
 var reader = new FileReader();
 
-reader.onload = function(e) {
-  var data = reader.result;
-  var stlReader = new StlReader();
-  var vn = stlReader.read(data);
-};
-
-reader.readAsArrayBuffer(f);
-```
-
-The returned vn array contains interleaved vertex normal data, like so,
-[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a
-vertex shader.
-
-### Reading large ASCII STL files client-side
-
-When reading large ASCII STL files on the client-side with Node.js you will get
-a RangeError (RangeError: Maximum call stack size exceeded) when using both the
-*read* and the *readAscii* functions. In this case it is best to use the
-*readAsync* function. The *readAsync* function takes a callback that receives
-the interleaved vertex normal array.
-
-```Javascript
-var reader = new FileReader();
-
 reader.onload = function () {
   var stlReader, data;
 
   data = reader.result;
   stlReader = new StlReader();
-  stlReader.readAsync(data, function (vn) {
+  stlReader.read(data, function (vn) {
 
   });
 };
@@ -148,32 +98,6 @@ reader.onload = function () {
 reader.readAsArrayBuffer(fileData);
 ```
 
-## Additional APIs
-
-If you already know that your STL file is ASCII or binary, then it is possible
-to read the file faster by directly using the *readBinary* or the *readAscii*
-APIs. There is also another API *isBinary* which can used to determine if the
-file is binary or ASCII.
-
-### Usage
-
-```JavaScript
-fs.readFile('test/cube-binary.stl', function (err, data) {
-  if (!err) {
-    var abData = toArrayBuffer(data);
-    var vn;
-
-    var reader = new StlReader();
-    var isBinary = reader.isBinary(abData);
-
-    if (isBinary) {
-      vn = reader.readBinary(abData);
-    } else {
-      vn = reader.readAscii(data.toString());
-    }
-  }
-});
-```
-
-Note that while the *readBinary* API takes an ArrayBuffer as input, the
-*readAscii* API needs an ASCII string representation of the file as input.
+The returned vn array contains interleaved vertex normal data, like so,
+[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a
+vertex shader.
