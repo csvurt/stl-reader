@@ -169,9 +169,12 @@
       var reader;
       if (isBinary(ds)) {
 
-        reader = new StlBinaryReader();
-        ds.seek(0);
-        callback(reader.read(ds));
+        setTimeout(function () {
+          reader = new StlBinaryReader();
+          ds.seek(0);
+          callback(reader.read(ds));
+        }, 0);
+
       } else {
 
         reader = new StlAsciiReader();
@@ -186,59 +189,6 @@
           callback(reader.read(buf.toString()));
         }
       }
-    };
-
-    /**
-     * Determines if an STL file is binary or ASCII
-     *
-     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @return {Boolean} true if the file is binary
-     */
-    StlReader.prototype.isBinary = function(fileData) {
-
-      var ds = checkValidity(fileData);
-
-      if (!ds) {
-        return false;
-      }
-
-      return isBinary(ds);
-    };
-
-    /**
-     * Reads a binary STL file and returns a Float32Array with the vertex
-     * normal data interleaved.
-     *
-     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @return {Float23Array} the interleaved vertex normal data if
-     * successfully read else null
-     */
-    StlReader.prototype.readBinary = function(fileData) {
-
-      var ds = checkValidity(fileData);
-
-      if (!ds) {
-        return null;
-      }
-
-      var reader = new StlBinaryReader();
-      ds.seek(0);
-      return reader.read(ds);
-    };
-
-    /**
-     * Reads an ASCII STL file and returns a Float32Array with the vertex
-     * normal data interleaved. Note that you need to pass the file data in
-     * as a string in this case.
-     *
-     * @param {String} str the file data as an ascii string
-     * @return {Float23Array} the interleaved vertex normal data if
-     * successfully read else null
-     */
-    StlReader.prototype.readAscii = function(str) {
-
-      var reader = new StlAsciiReader();
-      return reader.read(str);
     };
 
     return StlReader;
