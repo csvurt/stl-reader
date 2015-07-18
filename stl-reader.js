@@ -71,16 +71,6 @@
      * Converts ArrayBuffer to a string.
      *
      * @param {ArrayBuffer} buf the ArrayBuffer to convert
-     * @returns {string} the converted ascii string
-     */
-    function arrayBufferToString(buf) {
-      return String.fromCharCode.apply(null, new Uint8Array(buf));
-    }
-
-    /**
-     * Converts ArrayBuffer to a string.
-     *
-     * @param {ArrayBuffer} buf the ArrayBuffer to convert
      * @param {Function} callback the callback function that receives the converted string
      */
     function arrayBuffer2String(buf, callback) {
@@ -126,38 +116,9 @@
      * the file is appropriately parsed.
      *
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @return {Float23Array} the interleaved vertex normal data
-     */
-    StlReader.prototype.read = function(fileData) {
-
-      var ds = checkValidity(fileData);
-
-      if (!ds) {
-        return null;
-      }
-
-      var reader;
-      if (isBinary(ds)) {
-
-        reader = new StlBinaryReader();
-        ds.seek(0);
-        return reader.read(ds);
-      } else {
-
-        reader = new StlAsciiReader();
-        return reader.read(arrayBufferToString(fileData));
-      }
-    };
-
-    /**
-     * Reads the triangle vertices of an STL file into a Float32Array. The
-     * type of the file - binary/ASCII - is automatically determined and
-     * the file is appropriately parsed.
-     *
-     * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
      * @param {Function} callback the callback that receives the Float32Array
      */
-    StlReader.prototype.readAsync = function(fileData, callback) {
+    StlReader.prototype.read = function(fileData, callback) {
 
       var ds = checkValidity(fileData);
 

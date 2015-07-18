@@ -34,44 +34,34 @@ describe('StlReader', function () {
   it('should have a read and a readAsync function', function () {
     var reader = new StlReader();
     expect(reader.read).to.exist;
-    expect(reader.readAsync).to.exist;
   });
 
   it('should return null for an invalid file', function (done) {
     fs.readFile('test/invalid.stl', function (err, data) {
       var reader = new StlReader();
-      var vn = reader.read(toArrayBuffer(data));
-      expect(vn).to.be.null;
-      done();
+      reader.read(toArrayBuffer(data), function (vn) {
+        expect(vn).to.be.null;
+        done();
+      });
     });
   });
 
   it('should return null for an empty file', function (done) {
     fs.readFile('test/empty.stl', function (err, data) {
       var reader = new StlReader();
-      var vn = reader.read(toArrayBuffer(data));
-      expect(vn).to.be.null;
-      done();
+      reader.read(toArrayBuffer(data), function (vn) {
+        expect(vn).to.be.null;
+        done();
+      });
     });
   });
+
 
   it('should read an ascii stl file successfully with the read \
     function', function (done) {
     fs.readFile('test/cube.stl', function (err, data) {
       var reader = new StlReader();
-      var vn = reader.read(toArrayBuffer(data));
-      expect(vn.length).to.equal(3*2*3*12);
-
-      checkValidData(vn);
-      done();
-    });
-  });
-
-  it('should read an ascii stl file successfully with the readAsync \
-    function', function (done) {
-    fs.readFile('test/cube.stl', function (err, data) {
-      var reader = new StlReader();
-      reader.readAsync(toArrayBuffer(data), function (vn) {
+      reader.read(toArrayBuffer(data), function (vn) {
         expect(vn.length).to.equal(3*2*3*12);
 
         checkValidData(vn);
@@ -80,11 +70,11 @@ describe('StlReader', function () {
     });
   });
 
-  it('should read a large ascii stl file successfully with the readAsync \
+  it('should read a large ascii stl file successfully with the read \
     function', function (done) {
     fs.readFile('test/large-ascii.stl', function (err, data) {
       var reader = new StlReader();
-      reader.readAsync(toArrayBuffer(data), function (vn) {
+      reader.read(toArrayBuffer(data), function (vn) {
         expect(vn.length).to.equal(686556);
 
         done();
@@ -96,34 +86,10 @@ describe('StlReader', function () {
     function', function (done) {
     fs.readFile('test/cube-binary.stl', function (err, data) {
       var reader = new StlReader();
-      var vn = reader.read(toArrayBuffer(data));
-      expect(vn.length).to.equal(3*2*3*12);
-
-      checkValidData(vn);
-      done();
-    });
-  });
-
-  it('should read a binary stl file successfully with the readAsync \
-    function', function (done) {
-    fs.readFile('test/cube-binary.stl', function (err, data) {
-      var reader = new StlReader();
-      reader.readAsync(toArrayBuffer(data), function (vn) {
+      reader.read(toArrayBuffer(data), function (vn) {
         expect(vn.length).to.equal(3*2*3*12);
 
         checkValidData(vn);
-        done();
-      });
-    });
-  });
-
-  it('should read a large binary stl file successfully with the readAsync \
-    function', function (done) {
-    fs.readFile('test/large-binary.stl', function (err, data) {
-      var reader = new StlReader();
-      reader.readAsync(toArrayBuffer(data), function (vn) {
-        expect(vn.length).to.equal(68436);
-
         done();
       });
     });
@@ -133,10 +99,11 @@ describe('StlReader', function () {
     function', function (done) {
     fs.readFile('test/large-binary.stl', function (err, data) {
       var reader = new StlReader();
-      var vn = reader.read(toArrayBuffer(data));
-      expect(vn.length).to.equal(68436);
+      reader.read(toArrayBuffer(data), function (vn) {
+        expect(vn.length).to.equal(68436);
 
-      done();
+        done();
+      });
     });
   });
 
