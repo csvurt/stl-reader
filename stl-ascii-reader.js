@@ -7,10 +7,10 @@
     };
 
     /* Number of lines per facet in the STL file */
-    StlAsciiReader.LINES_PER_FACET = 7;
+    var LINES_PER_FACET = 7;
 
     /* Number of floating point values in a triangle */
-    StlAsciiReader.NUM_FLOATS_IN_TRI = 18;
+    var NUM_FLOATS_IN_TRI = 18;
 
     /**
      * Split line into words
@@ -18,7 +18,7 @@
      * @param {String} line containing words
      * @returns {Array} containing the words
      */
-    StlAsciiReader.splitLineIntoWords = function (line) {
+    function splitLineIntoWords(line) {
 
       var lineWords = line.trim().split(' ');
 
@@ -29,7 +29,7 @@
       }
 
       return lineWords;
-    };
+    }
 
     /**
      * Read a vector
@@ -38,9 +38,9 @@
      * @param {Number} idx index of word from where to read
      * @returns {Array} containing the vertex coordinates
      */
-    StlAsciiReader.readVector = function (line, idx) {
+    function readVector(line, idx) {
 
-      var lineWords = StlAsciiReader.splitLineIntoWords(line);
+      var lineWords = splitLineIntoWords(line);
       var vector = [];
 
       for (var i = 0; i< 3; i++) {
@@ -48,7 +48,7 @@
       }
 
       return vector;
-    };
+    }
 
     /**
      * Read a single vertex
@@ -56,10 +56,10 @@
      * @param {String} line containing the vertex
      * @returns {Array} containing the vertex coordinates
      */
-    StlAsciiReader.readVertex = function (line) {
+    function readVertex(line) {
 
-      return StlAsciiReader.readVector(line, 1);
-    };
+      return readVector(line, 1);
+    }
 
     /**
      * Read a single normal
@@ -67,10 +67,10 @@
      * @param {String} line containing the normal
      * @returns {Array} contaning the normal coordinates
      */
-    StlAsciiReader.readNormal = function (line) {
+    function readNormal(line) {
 
-      return StlAsciiReader.readVector(line, 2);
-    };
+      return readVector(line, 2);
+    }
 
     /**
      * Read a single facet
@@ -79,17 +79,17 @@
      * @param {Number} idx the index at which the facet starts
      * @returns {Object} an object with the normal and the verts
      */
-    StlAsciiReader.readFacet = function (lines, idx) {
+    function readFacet(lines, idx) {
 
       var facet = {};
-      facet.normal = StlAsciiReader.readNormal(lines[idx]);
+      facet.normal = readNormal(lines[idx]);
       facet.verts = [];
-      facet.verts.push(StlAsciiReader.readVertex(lines[idx+2]));
-      facet.verts.push(StlAsciiReader.readVertex(lines[idx+3]));
-      facet.verts.push(StlAsciiReader.readVertex(lines[idx+4]));
+      facet.verts.push(readVertex(lines[idx+2]));
+      facet.verts.push(readVertex(lines[idx+3]));
+      facet.verts.push(readVertex(lines[idx+4]));
 
       return facet;
-    };
+    }
 
     /**
      * Converts the facets into a Float32Array with interleaved vertex and
@@ -99,7 +99,7 @@
      * @param {Float32Array} vn the interleaved vertex normal data to be populated
      * @param {Number} idx the index at which to insert the facet data
      */
-    StlAsciiReader.pushFacetIntoFloat32Array = function (facet, vn, idx) {
+    function pushFacetIntoFloat32Array(facet, vn, idx) {
 
       var normal = facet.normal;
       for (var j = 0; j < 3; j++) {
@@ -112,7 +112,7 @@
           vn[idx+j*6+3+k] = facet.normal[k];
         }
       }
-    };
+    }
 
     /**
      * Read the STL solid
@@ -120,24 +120,23 @@
      * @param {Array} lines the lines of the STL file
      * @param {Float32Array} vn the interleaved vertex normal data to be populated
      */
-    StlAsciiReader.readSolid = function(lines, vn) {
+    function readSolid(lines, vn) {
 
       var facetCount = 0;
 
       for (var i = 0; i< lines.length; i++) {
         var lineWords = lines[i].trim().split(' ');
         if (lineWords[0] == 'facet') {
-          var facet = StlAsciiReader.readFacet(lines, i);
+          var facet = readFacet(lines, i);
 
-          StlAsciiReader.pushFacetIntoFloat32Array(facet, vn,
-            facetCount*StlAsciiReader.NUM_FLOATS_IN_TRI);
+          pushFacetIntoFloat32Array(facet, vn, facetCount*NUM_FLOATS_IN_TRI);
           facetCount += 1;
 
           // skip to the next facet
           i += 6;
         }
       }
-    };
+    }
 
     /**
      * Reads the triangle vertices of an ASCII STL file into a Float32Array
@@ -149,10 +148,10 @@
 
       var lines = fileData.split('\n');
 
-      var numTriangles = parseInt(lines.length/StlAsciiReader.LINES_PER_FACET);
-      var vn = new Float32Array(numTriangles*StlAsciiReader.NUM_FLOATS_IN_TRI);
+      var numTriangles = parseInt(lines.length/LINES_PER_FACET);
+      var vn = new Float32Array(numTriangles*NUM_FLOATS_IN_TRI);
 
-      StlAsciiReader.readSolid(lines, vn);
+      readSolid(lines, vn);
       return vn;
     };
 
