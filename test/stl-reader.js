@@ -102,6 +102,18 @@ describe('StlReader', function () {
     });
   });
 
+  it('should read a large ascii stl file successfully with the readAsync \
+    function', function (done) {
+    fs.readFile('test/large-ascii.stl', function (err, data) {
+      var reader = new StlReader();
+      reader.readAsync(toArrayBuffer(data), function (vn) {
+        expect(vn.length).to.equal(686556);
+
+        done();
+      });
+    });
+  });
+
   it('should read an ascii stl file successfully with the readAscii \
     function', function (done) {
     fs.readFile('test/cube.stl', function (err, data) {
@@ -146,6 +158,18 @@ describe('StlReader', function () {
         expect(vn.length).to.equal(3*2*3*12);
 
         checkValidData(vn);
+        done();
+      });
+    });
+  });
+
+  it('should read a large binary stl file successfully with the readAsync \
+    function', function (done) {
+    fs.readFile('test/large-binary.stl', function (err, data) {
+      var reader = new StlReader();
+      reader.readAsync(toArrayBuffer(data), function (vn) {
+        expect(vn.length).to.equal(68436);
+
         done();
       });
     });
