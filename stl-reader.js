@@ -19,15 +19,15 @@
     };
 
     /* Header size is 80 bytes */
-    StlReader.HEADER_SIZE = 80;
+    var HEADER_SIZE = 80;
 
     /* Triangle count size is a 4 byte integer */
-    StlReader.TRI_COUNT_SIZE = 4;
+    var TRI_COUNT_SIZE = 4;
 
     /* Per-triangle data size is 50 bytes - 4 vectors (normal plus three
       vertices) each with three 4 byte floats plus an additional 2 byte
       attribute count at the end */
-    StlReader.PER_TRI_SIZE = 4*(4*3)+2;
+    var PER_TRI_SIZE = 4*(4*3)+2;
 
     /**
      * Check if the file is too small to be a valid STL file.
@@ -37,7 +37,7 @@
      */
     function isTooSmallToBeValid(ds) {
       ds.seek(0);
-      if (ds.byteLength < StlReader.HEADER_SIZE + StlReader.TRI_COUNT_SIZE) {
+      if (ds.byteLength < HEADER_SIZE + TRI_COUNT_SIZE) {
         return true;
       }
 
@@ -55,11 +55,10 @@
 
       var fileSize = ds.byteLength;
 
-      var skipHeader = ds.readUint8Array(StlReader.HEADER_SIZE);
+      var skipHeader = ds.readUint8Array(HEADER_SIZE);
       var numTriangles = ds.readUint32();
 
-      if (fileSize == StlReader.HEADER_SIZE + StlReader.TRI_COUNT_SIZE +
-        numTriangles*StlReader.PER_TRI_SIZE) {
+      if (fileSize == HEADER_SIZE + TRI_COUNT_SIZE + numTriangles*PER_TRI_SIZE) {
 
         return true;
       }
