@@ -89,8 +89,8 @@
 
       var reader = new FileReader();
       reader.onload = function(e) {
-        callback(reader.result)
-      }
+        callback(reader.result);
+      };
       reader.readAsText(blob);
     }
 
