@@ -30,7 +30,7 @@ fs.readFile('test/cube.stl', function (err, data) {
 The returned *vn* array is a Float32Array that contains interleaved vertex
 normal data, like so, [Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal
 for directly passing to a vertex shader. The *v* and *n* arrays contain the
-vertices and normals separately. These can be use used with a library like
+vertices and normals separately. These can be used with a library like
 [three.js](http://threejs.org/) for rendering.
 
 The *read* function takes as input an ArrayBuffer. You can use the function
@@ -103,5 +103,5 @@ reader.readAsArrayBuffer(fileData);
 The returned *vn* array is a Float32Array that contains interleaved vertex
 normal data, like so, [Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal
 for directly passing to a vertex shader. The *v* and *n* arrays contain the
-vertices and normals separately. These can be use used with a library like
+vertices and normals separately. These can be used with a library like
 [three.js](http://threejs.org/) for rendering.
