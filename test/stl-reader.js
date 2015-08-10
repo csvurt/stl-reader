@@ -27,6 +27,15 @@ function checkValidData(vn, v, n) {
     expect(vn[i+6]).to.be.closeTo(vn2[i], delta);
     expect(vn[i+6*4]).to.be.closeTo(vn5[i], delta);
   }
+
+  for (var i = 0; i< 3; i++) {
+    expect(v[i]).to.be.closeTo(vn1[i], delta);
+    expect(n[i]).to.be.closeTo(vn1[i+3], delta);
+    expect(v[i+3]).to.be.closeTo(vn2[i], delta);
+    expect(n[i+3]).to.be.closeTo(vn2[i+3], delta);
+    expect(v[i+3*4]).to.be.closeTo(vn5[i], delta);
+    expect(n[i+3*4]).to.be.closeTo(vn5[i+3], delta);
+  }
 }
 
 describe('StlReader', function () {
@@ -70,7 +79,7 @@ describe('StlReader', function () {
         expect(v.length).to.equal(3*2*3*6);
         expect(n.length).to.equal(3*2*3*6);
 
-        checkValidData(vn);
+        checkValidData(vn, v, n);
         done();
       });
     });
@@ -80,8 +89,10 @@ describe('StlReader', function () {
     function', function (done) {
     fs.readFile('test/large-ascii.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn) {
+      reader.read(toArrayBuffer(data), function (vn, v, n) {
         expect(vn.length).to.equal(686556);
+        expect(v.length).to.equal(343278);
+        expect(n.length).to.equal(343278);
 
         done();
       });
@@ -92,10 +103,12 @@ describe('StlReader', function () {
     function', function (done) {
     fs.readFile('test/cube-binary.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn) {
+      reader.read(toArrayBuffer(data), function (vn, v, n) {
         expect(vn.length).to.equal(3*2*3*12);
+        expect(v.length).to.equal(3*2*3*6);
+        expect(n.length).to.equal(3*2*3*6);
 
-        checkValidData(vn);
+        checkValidData(vn, v, n);
         done();
       });
     });
@@ -105,8 +118,10 @@ describe('StlReader', function () {
     function', function (done) {
     fs.readFile('test/large-binary.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn) {
+      reader.read(toArrayBuffer(data), function (vn, v, n) {
         expect(vn.length).to.equal(68436);
+        expect(v.length).to.equal(34218);
+        expect(n.length).to.equal(34218);
 
         done();
       });
