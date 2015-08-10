@@ -21,15 +21,17 @@ var fs = require('fs');
 var StlReader = require('stl-reader');
 ...
 fs.readFile('test/cube.stl', function (err, data) {
-  StlReader.read(toArrayBuffer(data), function (vn) {
+  StlReader.read(toArrayBuffer(data), function (vn, v, n) {
 
   });
 });
 ```
 
-The returned *vn* array contains interleaved vertex normal data, like so,
-[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal for directly passing
-to a vertex shader.
+The returned *vn* array is a Float32Array that contains interleaved vertex
+normal data, like so, [Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal
+for directly passing to a vertex shader. The *v* and *n* arrays contain the
+vertices and normals separately. These can be use used with a library like
+[three.js](http://threejs.org/) for rendering.
 
 The *read* function takes as input an ArrayBuffer. You can use the function
 below to convert a Node Buffer to an ArrayBuffer (see discussion regarding this
@@ -90,7 +92,7 @@ reader.onload = function () {
 
   data = reader.result;
   stlReader = new StlReader();
-  stlReader.read(data, function (vn) {
+  stlReader.read(data, function (vn, v, n) {
 
   });
 };
@@ -98,6 +100,8 @@ reader.onload = function () {
 reader.readAsArrayBuffer(fileData);
 ```
 
-The returned vn array contains interleaved vertex normal data, like so,
-[Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. Ideal for directly passing onto a
-vertex shader.
+The returned *vn* array is a Float32Array that contains interleaved vertex
+normal data, like so, [Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal
+for directly passing to a vertex shader. The *v* and *n* arrays contain the
+vertices and normals separately. These can be use used with a library like
+[three.js](http://threejs.org/) for rendering.
