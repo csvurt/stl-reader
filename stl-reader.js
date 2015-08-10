@@ -115,14 +115,14 @@
      * the file is appropriately parsed.
      *
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @param {Function} callback the callback that receives the Float32Array
+     * @param {Function} callback the callback that receives the Float32Array(s)
      */
     StlReader.prototype.read = function(fileData, callback) {
 
       var ds = checkValidity(fileData);
 
       if (!ds) {
-        callback(null);
+        callback(null, null, null);
         return;
       }
 

@@ -13,7 +13,7 @@ function toArrayBuffer(buffer) {
   return ab;
 }
 
-function checkValidData(vn) {
+function checkValidData(vn, v, n) {
 
   // check the first vertex and normal
   var delta = 0.001;
@@ -22,7 +22,7 @@ function checkValidData(vn) {
   var vn2 = [1, 1, 0, 0, 0, -1];
   var vn5 = [0, 1, 0, 0, 0, -1];
 
-  for (var i = 0; i< 3; i++) {
+  for (var i = 0; i< 6; i++) {
     expect(vn[i]).to.be.closeTo(vn1[i], delta);
     expect(vn[i+6]).to.be.closeTo(vn2[i], delta);
     expect(vn[i+6*4]).to.be.closeTo(vn5[i], delta);
@@ -39,8 +39,10 @@ describe('StlReader', function () {
   it('should return null for an invalid file', function (done) {
     fs.readFile('test/invalid.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn) {
+      reader.read(toArrayBuffer(data), function (vn, v, n) {
         expect(vn).to.be.null;
+        expect(v).to.be.null;
+        expect(n).to.be.null;
         done();
       });
     });
@@ -49,8 +51,10 @@ describe('StlReader', function () {
   it('should return null for an empty file', function (done) {
     fs.readFile('test/empty.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn) {
+      reader.read(toArrayBuffer(data), function (vn, v, n) {
         expect(vn).to.be.null;
+        expect(v).to.be.null;
+        expect(n).to.be.null;
         done();
       });
     });
@@ -61,8 +65,10 @@ describe('StlReader', function () {
     function', function (done) {
     fs.readFile('test/cube.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn) {
+      reader.read(toArrayBuffer(data), function (vn, v, n) {
         expect(vn.length).to.equal(3*2*3*12);
+        expect(v.length).to.equal(3*2*3*6);
+        expect(n.length).to.equal(3*2*3*6);
 
         checkValidData(vn);
         done();
