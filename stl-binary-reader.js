@@ -36,18 +36,23 @@
      * Read each individual triangle
      *
      * @param {DataStream} ds the file DataStream object
-     * @param {Float32Array} arr the array to read the triangle data into
+     * @param {Float32Array} vn the array to read the triangle data into
+     * @param {Float32Array} v the array to read the vertices into
+     * @param {Float32Array} n the array to read the normals into
      * @param {number} idx the index in the array from where to start
      */
-    function readTriangle(ds, arr, idx) {
+    function readTriangle(ds, vn, v, n, idx) {
 
       var normal = ds.readFloat32Array(3);
       for (var i = 0; i<3; i++) {
 
         var vert = ds.readFloat32Array(3);
 
-        readVec3IntoArray(vert, arr, idx + i*6);
-        readVec3IntoArray(normal, arr, idx + i*6 + 3);
+        readVec3IntoArray(vert, vn, idx + i*6);
+        readVec3IntoArray(vert, v, idx/2 + i*3);
+
+        readVec3IntoArray(normal, vn, idx + i*6 + 3);
+        readVec3IntoArray(normal, n, idx/2 + i*3);
       }
 
       ds.readUint16();
@@ -62,13 +67,19 @@
     function readTriangles(ds) {
 
       var numTri = ds.readUint32();
-      var typedArray = new Float32Array(numTri*3*3*2);
+      var vn = new Float32Array(numTri*3*3*2);
+      var v = new Float32Array(numTri*3*3);
+      var n = new Float32Array(numTri*3*3);
 
       for (var i = 0; i< numTri; i++) {
-        readTriangle(ds, typedArray, i*3*3*2);
+        readTriangle(ds, vn, v, n, i*3*3*2);
       }
 
-      return typedArray;
+      return {
+        vn: vn,
+        vertices: v,
+        normals: n
+      };
     }
 
     /**

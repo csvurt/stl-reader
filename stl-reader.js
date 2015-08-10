@@ -132,7 +132,8 @@
         setTimeout(function () {
           reader = new StlBinaryReader();
           ds.seek(0);
-          callback(reader.read(ds));
+          var res = reader.read(ds);
+          callback(res.vn, res.vertices, res.normals);
         }, 0);
 
       } else {
