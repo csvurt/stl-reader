@@ -141,12 +141,14 @@
 
         if (typeof Blob !== 'undefined') {
           arrayBuffer2String(fileData, function (str) {
-            callback(reader.read(str));
+            var res = reader.read(str);
+            callback(res.vn, res.vertices, res.normals);
           });
         } else {
 
           var buf = new Buffer(new Uint8Array(fileData));
-          callback(reader.read(buf.toString()));
+          var res = reader.read(buf.toString());
+          callback(res.vn, res.vertices, res.normals);
         }
       }
     };

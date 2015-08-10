@@ -97,19 +97,23 @@
      *
      * @param {Object} facet the facet object with the vertices and normal
      * @param {Float32Array} vn the interleaved vertex normal data to be populated
+     * @param {Float32Array} v the vertex data to be populated
+     * @param {Float32Array} n the normal data to be populated
      * @param {Number} idx the index at which to insert the facet data
      */
-    function pushFacetIntoFloat32Array(facet, vn, idx) {
+    function pushFacetIntoFloat32Array(facet, vn, v, n, idx) {
 
       var normal = facet.normal;
       for (var j = 0; j < 3; j++) {
         for (var k = 0; k < 3; k++) {
           vn[idx+j*6+k] = facet.verts[j][k];
+          v[idx/2+j*3+k] = facet.verts[j][k];
         }
 
         // copy the normal after each vertex
         for (k = 0; k < 3; k++) {
           vn[idx+j*6+3+k] = facet.normal[k];
+          n[idx/2+j*3+k] = facet.normal[k];
         }
       }
     }
@@ -119,8 +123,10 @@
      *
      * @param {Array} lines the lines of the STL file
      * @param {Float32Array} vn the interleaved vertex normal data to be populated
+     * @param {Float32Array} v the vertex data to be populated
+     * @param {Float32Array} n the normal data to be populated
      */
-    function readSolid(lines, vn) {
+    function readSolid(lines, vn, v, n) {
 
       var facetCount = 0;
 
@@ -129,7 +135,7 @@
         if (lineWords[0] == 'facet') {
           var facet = readFacet(lines, i);
 
-          pushFacetIntoFloat32Array(facet, vn, facetCount*NUM_FLOATS_IN_TRI);
+          pushFacetIntoFloat32Array(facet, vn, v, n, facetCount*NUM_FLOATS_IN_TRI);
           facetCount += 1;
 
           // skip to the next facet
@@ -150,9 +156,15 @@
 
       var numTriangles = parseInt(lines.length/LINES_PER_FACET);
       var vn = new Float32Array(numTriangles*NUM_FLOATS_IN_TRI);
+      var v = new Float32Array(numTriangles*NUM_FLOATS_IN_TRI/2);
+      var n = new Float32Array(numTriangles*NUM_FLOATS_IN_TRI/2);
 
-      readSolid(lines, vn);
-      return vn;
+      readSolid(lines, vn, v, n);
+      return {
+        vn: vn,
+        vertices: v,
+        normals: n
+      };
     };
 
     return StlAsciiReader;
