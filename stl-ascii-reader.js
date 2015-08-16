@@ -172,7 +172,9 @@
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = StlAsciiReader;
-  } else {
+  }
+
+  if (typeof window !== 'undefined') {
     window.StlAsciiReader = StlAsciiReader;
   }
 

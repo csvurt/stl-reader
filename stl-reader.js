@@ -159,7 +159,9 @@
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = StlReader;
-  } else {
+  }
+
+  if (typeof window !== 'undefined') {
     window.StlReader = StlReader;
   }
 

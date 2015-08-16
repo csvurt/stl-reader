@@ -99,7 +99,9 @@
 
   if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = StlBinaryReader;
-  } else {
+  }
+
+  if (typeof window !== 'undefined') {
     window.StlBinaryReader = StlBinaryReader;
   }
 
