@@ -1,10 +1,10 @@
 {
   "name": "stl-reader",
   "main": "stl-reader.js",
-  "version": "2.1.1",
-  "homepage": "https://github.com/tatchx/stl-reader",
+  "version": "2.1.2",
+  "homepage": "https://github.com/tatx/stl-reader",
   "authors": [
-    "Tommy Conway <tmycnw@gmail.com>"
+    "Tathagata Chakraborty <tatx@me.com>"
   ],
   "description": "Library for parsing STL (Stereolithography) files into typed arrays for WebGL rendering",
   "keywords": [

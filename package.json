@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tatchx/stl-reader.git"
+    "url": "https://github.com/tatx/stl-reader.git"
   },
   "keywords": [
     "stl",
@@ -16,12 +16,12 @@
     "reader",
     "stereolithography"
   ],
-  "author": "Tommy Conway <tmycnw@gmail.com> (https://github.com/tatchx)",
+  "author": "Tathagata Chakraborty <tatx@me.com> (https://github.com/tatx)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/tatchx/stl-reader/issues"
+    "url": "https://github.com/tatx/stl-reader/issues"
   },
-  "homepage": "https://github.com/tatchx/stl-reader",
+  "homepage": "https://github.com/tatx/stl-reader",
   "devDependencies": {
     "chai": "^2.3.0",
     "grunt": "^0.4.5",
