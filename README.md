@@ -3,8 +3,8 @@
 [![License](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](http://opensource.org/licenses/MIT)
 
 JavaScript library for parsing STL (Stereolithography) files into interleaved
-vertex normal Float32Arrays that can be directly passed into WebGL for
-rendering.
+vertex normal Float32Arrays that can be directly passed into WebGL or used with
+a library like [three.js](http://threejs.org/) for rendering.
 
 ## Server-side
 
