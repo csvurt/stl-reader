@@ -121,4 +121,4 @@ StlReader.read(data, function (vn, v, n) {
 ```
 
 where, *material* is the material you want to render the mesh with and *scene*
-if the three.js scene object to which you want to add the mesh.
+is the three.js scene object to which you want to add the mesh.
