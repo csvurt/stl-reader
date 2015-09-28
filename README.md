@@ -21,17 +21,20 @@ var fs = require('fs');
 var StlReader = require('stl-reader');
 ...
 fs.readFile('test/cube.stl', function (err, data) {
-  StlReader.read(toArrayBuffer(data), function (vn, v, n) {
+  var res = StlReader.read(toArrayBuffer(data));
 
-  });
+  console.log(res.vn);
+  console.log(res.vertices);
+  console.log(res.normals);
 });
 ```
 
-The returned *vn* array is a Float32Array that contains interleaved vertex
+The returned *res* object contains three properties - 'vn', 'vertices' and
+'normals'. *vn* is a Float32Array that contains interleaved vertex
 normal data, like so, [Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal
-for directly passing to a vertex shader. The *v* and *n* arrays contain the
-vertices and normals separately. These can be used with a library like
-[three.js](http://threejs.org/) for rendering.
+for directly passing to a vertex shader. The *vertices* and *normals* arrays
+contain the vertices and normals separately. These can be used with a library
+like [three.js](http://threejs.org/) for rendering.
 
 The *read* function takes as input an ArrayBuffer. You can use the function
 below to convert a Node Buffer to an ArrayBuffer (see discussion regarding this
@@ -92,32 +95,33 @@ reader.onload = function () {
 
   data = reader.result;
   stlReader = new StlReader();
-  stlReader.read(data, function (vn, v, n) {
+  var res = stlReader.read(data);
 
-  });
+  console.log(res.vn);
+  console.log(res.vertices);
+  console.log(res.normals);
 };
 
 reader.readAsArrayBuffer(fileData);
 ```
 
-The returned *vn* array is a Float32Array that contains interleaved vertex
+The returned *res* object contains three properties - 'vn', 'vertices' and
+'normals'. *vn* is a Float32Array that contains interleaved vertex
 normal data, like so, [Vx, Vy, Vz, Nx, Ny, Nz, ...] and so on. This is ideal
-for directly passing to a vertex shader.
-
-The *v* and *n* arrays contain the vertices and normals separately. These can
-be used with a library like [three.js](http://threejs.org/) for rendering:
+for directly passing to a vertex shader. The *vertices* and *normals* arrays
+contain the vertices and normals separately. These can be used with a library
+like [three.js](http://threejs.org/) for rendering:
 
 
 ```Javascript
-StlReader.read(data, function (vn, v, n) {
+var res = StlReader.read(data);
 
-  var geometry = new THREE.BufferGeometry();
-  geometry.addAttribute('position', new THREE.BufferAttribute(v, 3));
-  geometry.addAttribute('normal', new THREE.BufferAttribute(n, 3));
-  mesh = new THREE.Mesh(geometry, material);
+var geometry = new THREE.BufferGeometry();
+geometry.addAttribute('position', new THREE.BufferAttribute(res.vertices, 3));
+geometry.addAttribute('normal', new THREE.BufferAttribute(res.normals, 3));
+mesh = new THREE.Mesh(geometry, material);
 
-  scene.add(mesh);
-});
+scene.add(mesh);
 ```
 
 where, *material* is the material you want to render the mesh with and *scene*
