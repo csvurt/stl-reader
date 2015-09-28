@@ -115,41 +115,34 @@
      * the file is appropriately parsed.
      *
      * @param  {ArrayBuffer} fileData The file as an ArrayBuffer
-     * @param {Function} callback the callback that receives the Float32Array(s)
+     * @param {Object} returns an object with vn, vertices amd normals properties
      */
-    StlReader.prototype.read = function(fileData, callback) {
+    StlReader.prototype.read = function(fileData) {
 
       var ds = checkValidity(fileData);
 
       if (!ds) {
-        callback(null, null, null);
-        return;
+        return null;
       }
 
       var reader;
       if (isBinary(ds)) {
 
-        setTimeout(function () {
-          reader = new StlBinaryReader();
-          ds.seek(0);
-          var res = reader.read(ds);
-          callback(res.vn, res.vertices, res.normals);
-        }, 0);
-
+        reader = new StlBinaryReader();
+        ds.seek(0);
+        return reader.read(ds);
       } else {
 
         reader = new StlAsciiReader();
 
         if (typeof Blob !== 'undefined') {
           arrayBuffer2String(fileData, function (str) {
-            var res = reader.read(str);
-            callback(res.vn, res.vertices, res.normals);
+            return reader.read(str);
           });
         } else {
 
           var buf = new Buffer(new Uint8Array(fileData));
-          var res = reader.read(buf.toString());
-          callback(res.vn, res.vertices, res.normals);
+          return reader.read(buf.toString());
         }
       }
     };

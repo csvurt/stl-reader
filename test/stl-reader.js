@@ -13,7 +13,7 @@ function toArrayBuffer(buffer) {
   return ab;
 }
 
-function checkValidData(vn, v, n) {
+function checkValidData(res) {
 
   // check the first vertex and normal
   var delta = 0.001;
@@ -23,24 +23,24 @@ function checkValidData(vn, v, n) {
   var vn5 = [0, 1, 0, 0, 0, -1];
 
   for (var i = 0; i< 6; i++) {
-    expect(vn[i]).to.be.closeTo(vn1[i], delta);
-    expect(vn[i+6]).to.be.closeTo(vn2[i], delta);
-    expect(vn[i+6*4]).to.be.closeTo(vn5[i], delta);
+    expect(res.vn[i]).to.be.closeTo(vn1[i], delta);
+    expect(res.vn[i+6]).to.be.closeTo(vn2[i], delta);
+    expect(res.vn[i+6*4]).to.be.closeTo(vn5[i], delta);
   }
 
   for (var i = 0; i< 3; i++) {
-    expect(v[i]).to.be.closeTo(vn1[i], delta);
-    expect(n[i]).to.be.closeTo(vn1[i+3], delta);
-    expect(v[i+3]).to.be.closeTo(vn2[i], delta);
-    expect(n[i+3]).to.be.closeTo(vn2[i+3], delta);
-    expect(v[i+3*4]).to.be.closeTo(vn5[i], delta);
-    expect(n[i+3*4]).to.be.closeTo(vn5[i+3], delta);
+    expect(res.vertices[i]).to.be.closeTo(vn1[i], delta);
+    expect(res.normals[i]).to.be.closeTo(vn1[i+3], delta);
+    expect(res.vertices[i+3]).to.be.closeTo(vn2[i], delta);
+    expect(res.normals[i+3]).to.be.closeTo(vn2[i+3], delta);
+    expect(res.vertices[i+3*4]).to.be.closeTo(vn5[i], delta);
+    expect(res.normals[i+3*4]).to.be.closeTo(vn5[i+3], delta);
   }
 }
 
 describe('StlReader', function () {
 
-  it('should have a read and a readAsync function', function () {
+  it('should have a read function', function () {
     var reader = new StlReader();
     expect(reader.read).to.exist;
   });
@@ -48,40 +48,33 @@ describe('StlReader', function () {
   it('should return null for an invalid file', function (done) {
     fs.readFile('test/invalid.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn, v, n) {
-        expect(vn).to.be.null;
-        expect(v).to.be.null;
-        expect(n).to.be.null;
-        done();
-      });
+      var res = reader.read(toArrayBuffer(data));
+      expect(res).to.be.null;
+      done();
     });
   });
 
   it('should return null for an empty file', function (done) {
     fs.readFile('test/empty.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn, v, n) {
-        expect(vn).to.be.null;
-        expect(v).to.be.null;
-        expect(n).to.be.null;
-        done();
-      });
+      var res = reader.read(toArrayBuffer(data));
+      expect(res).to.be.null;
+      done();
     });
   });
-
 
   it('should read an ascii stl file successfully with the read \
     function', function (done) {
     fs.readFile('test/cube.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn, v, n) {
-        expect(vn.length).to.equal(3*2*3*12);
-        expect(v.length).to.equal(3*2*3*6);
-        expect(n.length).to.equal(3*2*3*6);
+      var res = reader.read(toArrayBuffer(data));
 
-        checkValidData(vn, v, n);
-        done();
-      });
+      expect(res.vn.length).to.equal(3*2*3*12);
+      expect(res.vertices.length).to.equal(3*2*3*6);
+      expect(res.normals.length).to.equal(3*2*3*6);
+
+      checkValidData(res);
+      done();
     });
   });
 
@@ -89,13 +82,13 @@ describe('StlReader', function () {
     function', function (done) {
     fs.readFile('test/large-ascii.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn, v, n) {
-        expect(vn.length).to.equal(686556);
-        expect(v.length).to.equal(343278);
-        expect(n.length).to.equal(343278);
+      var res = reader.read(toArrayBuffer(data));
 
-        done();
-      });
+      expect(res.vn.length).to.equal(686556);
+      expect(res.vertices.length).to.equal(343278);
+      expect(res.normals.length).to.equal(343278);
+
+      done();
     });
   });
 
@@ -103,14 +96,14 @@ describe('StlReader', function () {
     function', function (done) {
     fs.readFile('test/cube-binary.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn, v, n) {
-        expect(vn.length).to.equal(3*2*3*12);
-        expect(v.length).to.equal(3*2*3*6);
-        expect(n.length).to.equal(3*2*3*6);
+      var res = reader.read(toArrayBuffer(data));
 
-        checkValidData(vn, v, n);
-        done();
-      });
+      expect(res.vn.length).to.equal(3*2*3*12);
+      expect(res.vertices.length).to.equal(3*2*3*6);
+      expect(res.normals.length).to.equal(3*2*3*6);
+
+      checkValidData(res);
+      done();
     });
   });
 
@@ -118,13 +111,12 @@ describe('StlReader', function () {
     function', function (done) {
     fs.readFile('test/large-binary.stl', function (err, data) {
       var reader = new StlReader();
-      reader.read(toArrayBuffer(data), function (vn, v, n) {
-        expect(vn.length).to.equal(68436);
-        expect(v.length).to.equal(34218);
-        expect(n.length).to.equal(34218);
+      var res = reader.read(toArrayBuffer(data));
 
-        done();
-      });
+      expect(res.vn.length).to.equal(68436);
+      expect(res.vertices.length).to.equal(34218);
+      expect(res.normals.length).to.equal(34218);
+      done();
     });
   });
 
