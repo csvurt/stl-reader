@@ -1,6 +1,6 @@
 {
   "name": "stl-reader",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Library for parsing STL (Stereolithography) files into typed arrays for WebGL rendering",
   "main": "stl-reader.js",
   "scripts": {
