@@ -67,23 +67,6 @@
     }
 
     /**
-     * Converts ArrayBuffer to a string.
-     *
-     * @param {ArrayBuffer} buf the ArrayBuffer to convert
-     * @param {Function} callback the callback function that receives the converted string
-     */
-    function arrayBuffer2String(buf, callback) {
-
-      var blob = new Blob([buf], {type: 'application/octet-binary'});
-
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        callback(reader.result);
-      };
-      reader.readAsText(blob);
-    }
-
-    /**
      * Checks if the ArrayBuffer is valid - that is, the data could
      * theoretically be an STL file
      *
@@ -134,16 +117,8 @@
       } else {
 
         reader = new StlAsciiReader();
-
-        if (typeof Blob !== 'undefined') {
-          arrayBuffer2String(fileData, function (str) {
-            return reader.read(str);
-          });
-        } else {
-
-          var buf = new Buffer(new Uint8Array(fileData));
-          return reader.read(buf.toString());
-        }
+        ds.seek(0);
+        return reader.read(ds.readString());
       }
     };
 
